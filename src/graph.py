@@ -10,7 +10,7 @@ class Graph:
 
 
     '''
-    # Get the position of zero
+    Get the position of zero
     '''
     def getZeroPosition(self):
         for i, row in enumerate(self.current_state):
@@ -36,6 +36,7 @@ class Graph:
     def getChildren(self):
         self.zero_position = self.getZeroPosition()
 
+        # List of tuples (cost, child_state, parent_state)
         children = []
 
         # Old zero position                
@@ -59,7 +60,7 @@ class Graph:
 
                 state_copy = copy.deepcopy(self.current_state) # Deep copy
                 state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
-                children.append((cost, state_copy))
+                children.append((cost, state_copy, self.current_state))
 
         elif self.zero_position == (1, 0):
             new_zero_positions = [(self.zero_position[0], self.zero_position[1] + 1),
@@ -78,7 +79,7 @@ class Graph:
 
                 state_copy = copy.deepcopy(self.current_state) # Deep copy
                 state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
-                children.append((cost, state_copy))
+                children.append((cost, state_copy, self.current_state))
 
         elif self.zero_position == (0, 3):
             new_zero_positions = [(self.zero_position[0], self.zero_position[1] - 1),
@@ -97,7 +98,7 @@ class Graph:
 
                 state_copy = copy.deepcopy(self.current_state) # Deep copy
                 state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
-                children.append((cost, state_copy))
+                children.append((cost, state_copy, self.current_state))
 
         elif self.zero_position == (1, 3):
             new_zero_positions = [(self.zero_position[0], self.zero_position[1] - 1),
@@ -116,7 +117,7 @@ class Graph:
 
                 state_copy = copy.deepcopy(self.current_state) # Deep copy
                 state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
-                children.append((cost, state_copy))
+                children.append((cost, state_copy, self.current_state))
         else:
             cost = 1
 
@@ -128,7 +129,10 @@ class Graph:
             # Get all possible children and swap the positions.
             for i, position in enumerate(new_zero_positions):
                 state_copy = copy.deepcopy(self.current_state) # Deep copy
+
+                # Swap positions
                 state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
-                children.append((cost, state_copy))
+                
+                children.append((cost, state_copy, self.current_state))
 
         return children
