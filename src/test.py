@@ -12,10 +12,10 @@ test_puzzle2 = [1, 3, 5, 7, 2, 4, 0, 6]
 test_puzzle3 = [1, 2, 3, 4, 5, 0, 6, 7]
 test_puzzle4 = [1, 2, 0, 4, 5, 6, 7, 3]
 test_puzzle5 = [1, 3, 5, 7, 0, 2, 4, 6]
-test_puzzle5 = [0, 1, 2, 4, 3, 5, 6, 7]
+# test_puzzle5 = [0, 1, 2, 4, 3, 5, 6, 7]
 
-
-g1 = Graph(goal_states, p.puzzles[0])
+# Works for puzzle 3!!
+g1 = Graph(goal_states, p.puzzles[1])
 ucs = UCS(g1)
 ucs.search()
 
