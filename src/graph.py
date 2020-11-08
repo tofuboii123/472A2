@@ -1,4 +1,5 @@
 import copy
+from heuristic import *
 
 class Graph:
 
@@ -32,7 +33,7 @@ class Graph:
     '''
     Get all possible children depending on the position
     '''
-    def getChildren(self):
+    def getChildren(self, mode=0):
         self.zero_position = self.getZeroPosition()
 
         # List of tuples (cost, child_state, parent_state)
@@ -49,15 +50,27 @@ class Graph:
                                   self.zero_position + 5,
                                   self.zero_position + 7]
             
-            for i, position in enumerate(new_zero_positions):
-                if i < 2:
-                    cost = 1
-                elif i == 2:
-                    cost = 2
-                else:
-                    cost = 3
 
+            for i, position in enumerate(new_zero_positions):
+                
+                h = 0
                 state_copy = self.current_state.copy() # Deep copy
+
+                if(mode == 0):
+                    h = 0
+                elif(mode == 1):
+                    h = heuristic.hammingDistance(state_copy, self.goal_states)
+                elif(mode == 2):
+                    h = heuristic.oneDimensionDistance(state_copy, self.goal_states)
+
+                if i < 2:
+                    cost = 1 + h
+                elif i == 2:
+                    cost = 2 + h
+                else:
+                    cost = 3 + h
+
+
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 children.append((cost, state_copy, self.current_state))
 
@@ -69,14 +82,24 @@ class Graph:
                                   self.zero_position - 1]
             
             for i, position in enumerate(new_zero_positions):
-                if i < 2:
-                    cost = 1
-                elif i == 2:
-                    cost = 2
-                else:
-                    cost = 3
-
+                
+                h = 0
                 state_copy = self.current_state.copy() # Deep copy
+
+                if(mode == 0):
+                    h = 0
+                elif(mode == 1):
+                    h = heuristic.hammingDistance(state_copy, self.goal_states)
+                elif(mode == 2):
+                    h = heuristic.oneDimensionDistance(state_copy, self.goal_states)
+
+                if i < 2:
+                    cost = 1 + h
+                elif i == 2:
+                    cost = 2 + h
+                else:
+                    cost = 3 + h
+
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 children.append((cost, state_copy, self.current_state))
 
@@ -88,14 +111,24 @@ class Graph:
                                   self.zero_position + 1]
             
             for i, position in enumerate(new_zero_positions):
-                if i < 2:
-                    cost = 1
-                elif i == 2:
-                    cost = 2
-                else:
-                    cost = 3
-
+                
+                h = 0
                 state_copy = self.current_state.copy() # Deep copy
+
+                if(mode == 0):
+                    h = 0
+                elif(mode == 1):
+                    h = heuristic.hammingDistance(state_copy, self.goal_states)
+                elif(mode == 2):
+                    h = heuristic.oneDimensionDistance(state_copy, self.goal_states)
+
+                if i < 2:
+                    cost = 1 + h
+                elif i == 2:
+                    cost = 2 + h
+                else:
+                    cost = 3 + h
+
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 children.append((cost, state_copy, self.current_state))
 
@@ -107,18 +140,37 @@ class Graph:
                                   self.zero_position - 7]
             
             for i, position in enumerate(new_zero_positions):
-                if i < 2:
-                    cost = 1
-                elif i == 2:
-                    cost = 2
-                else:
-                    cost = 3
-
+                
+                h = 0
                 state_copy = self.current_state.copy() # Deep copy
+
+                if(mode == 0):
+                    h = 0
+                elif(mode == 1):
+                    h = heuristic.hammingDistance(state_copy, self.goal_states)
+                elif(mode == 2):
+                    h = heuristic.oneDimensionDistance(state_copy, self.goal_states)
+
+                if i < 2:
+                    cost = 1 + h
+                elif i == 2:
+                    cost = 2 + h
+                else:
+                    cost = 3 + h
+
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 children.append((cost, state_copy, self.current_state))
         else:
-            cost = 1
+            h = 0
+            state_copy = self.current_state.copy()
+            if(mode == 0):
+                h = 0
+            elif(mode == 1):
+                h = heuristic.hammingDistance(state_copy, self.goal_states)
+            elif(mode == 2):
+                h = heuristic.oneDimensionDistance(state_copy, self.goal_states)
+
+            cost = 1 + h
 
             # The possible new positions for the 0 tile
             new_zero_positions = [self.zero_position + 1,

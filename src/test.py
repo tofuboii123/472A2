@@ -1,6 +1,8 @@
 from graph import *
 from puzzle import *
 from UCS import *
+from heuristic import *
+from a_star import *
 
 p = Puzzle("puzzles/test.txt", (2, 4))
 
@@ -18,6 +20,10 @@ test_puzzle5 = [1, 3, 5, 7, 0, 2, 4, 6]
 g1 = Graph(goal_states, p.puzzles[1])
 ucs = UCS(g1)
 ucs.search()
+
+aStar = a_star(g1)
+aStar.search(1)
+aStar.search(2)
 
 # g2 = Graph(goal_states, test_puzzle2)
 # ucs2 = UCS(g2)
