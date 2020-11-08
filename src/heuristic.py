@@ -13,7 +13,7 @@ class heuristic:
     # Compare distance of position
     def positionCheck(arr1, arr2):
         numOfIncorrect = 0
-        # i=x y=j how far it takes to get there  goalx(end goal) - testx(current)
+        # 
         for i in range (len(arr1)):
             for j in range (len(arr1)):
                 if(arr1[i] == arr2[j]):
@@ -57,8 +57,8 @@ class heuristic:
         
 
 # Test Section
-goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
-test_puzzle = [1, 2, 3, 4, 5, 6, 0, 7]  
+# goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
+# test_puzzle = [1, 2, 3, 4, 5, 6, 0, 7]  
 
-heuristic.hammingDistance(test_puzzle, goal_states)
-heuristic.oneDimensionDistance(test_puzzle, goal_states)
+# heuristic.hammingDistance(test_puzzle, goal_states)
+# heuristic.oneDimensionDistance(test_puzzle, goal_states)

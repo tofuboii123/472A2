@@ -17,15 +17,14 @@ test_puzzle5 = [1, 3, 5, 7, 0, 2, 4, 6]
 # test_puzzle5 = [0, 1, 2, 4, 3, 5, 6, 7]
 
 # Works for puzzle 3!!
-g1 = Graph(goal_states, p.puzzles[1])
-ucs = UCS(g1)
-ucs.search()
+g1 = Graph(goal_states, p.puzzles[2])
+#ucs = UCS(g1)
+#ucs.search()
 
 aStar = a_star(g1)
-aStar.search(1)
-aStar.search(2)
+#aStar.search(1)
+#aStar.search(2)
 
 # g2 = Graph(goal_states, test_puzzle2)
 # ucs2 = UCS(g2)
 # ucs2.search()
-
