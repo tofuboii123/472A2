@@ -34,6 +34,7 @@ class UCS:
 
             # Remove first element from PQ
             cost, current_node, parent_node = self.pq.get()
+            self.nodes.remove(current_node)
             self.open_list.remove((cost, current_node, parent_node))
             self.graph.current_state = current_node
 
@@ -63,32 +64,40 @@ class UCS:
                 add = True
 
                 if not child[1] in self.closed_list:
+
+                    # Child has never been visited
                     if not child[1] in self.nodes:
                         self.nodes.append(child[1])
                         self.pq.put((child[0] + cost, child[1], child[2]))
                         self.open_list.append((child[0] + cost, child[1], child[2]))
                     else:
-                        old_state = [state for state in self.open_list if self.nodes[-1] in state]
-                        if child[0] < old_state[0][0]:
+                        old_state = [state for state in self.open_list if self.nodes[-1] in state]          # Get the state that has the same one as the child
+                        print(old_state)
+                        
+                        # Compare the costs (Don't forget to do the sum)
+                        if child[0] + cost < old_state[0][0]:
                             self.nodes.remove(old_state[0][1])
                             self.open_list.remove(old_state[0])
                             
                             old_states = []
                             
                             state = self.pq.get()
+                            old_states.append(state)
 
+                            print(state)
                             while state[1] != child[1]:
                                 state = self.pq.get()
                                 old_states.append(state)
 
+                            print(old_states)
+
                             if old_states[-1][0] > child[0]:
-                                old_states[-1] = child
+                                old_states[-1] = (child[0] + cost, child[1], child[2])          # It breaks here... Somehow old_states[-1] becomes empty
 
                             for s in old_states:
                                 self.pq.put(s)
 
                             self.nodes.append(child[1])
-                            self.pq.put((child[0] + cost, child[1], child[2]))
                             self.open_list.append((child[0] + cost, child[1], child[2]))
                         
                         
