@@ -97,8 +97,8 @@ class UCS:
                             for s in old_states:
                                 self.pq.put(s)
 
-                            self.nodes.append(child[1])
-                            self.open_list.append((child[0] + cost, child[1], child[2]))
+                            self.nodes.append(old_states[-1][1])
+                            self.open_list.append((old_states[-1][0] + cost, old_states[-1][1], old_states[-1][2]))
                         
                         
                     # repeated_children = [state for state in self.open_list if child[1] in state]
