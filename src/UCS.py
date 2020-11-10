@@ -10,7 +10,9 @@ class UCS:
         self.open_list = []                 
         self.closed_list = []
         self.pq = PriorityQueue()
-        self.nodes = []                      
+        self.nodes = []
+        self.solution_path = []
+        self.solution_cost = 0                      
 
 
     '''
@@ -47,7 +49,9 @@ class UCS:
                 for state in self.closed_list:
                     print(state)
 
-                print("Least cost: {}".format(fx))
+                self.getSolutionPath()
+
+                print("Least cost: {}".format(self.solution_cost))
                 print("Done!\n")
                 return True
             
@@ -94,3 +98,29 @@ class UCS:
                             self.open_list.append((old_states[-1][0], old_states[-1][1], old_states[-1][2], old_states[-1][3], old_states[-1][4]))
                         
         return False
+
+    '''
+    Get the solution path from the closed list
+    '''
+    def getSolutionPath(self):
+
+        # Start with the solution and backtrack to the start state
+        self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3]))
+        parent = self.closed_list[-1][2]
+
+        while not parent == None:
+            for state in self.closed_list:
+                if parent == state[1]:
+                    self.solution_path.append((state[1], state[3]))
+                    parent = state[2]
+                    break
+
+        self.solution_path.reverse()
+
+        print("\nSolution Path:")
+
+        for state in self.solution_path:
+            self.solution_cost = self.solution_cost + state[1]
+            print(state)
+
+

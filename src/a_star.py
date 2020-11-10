@@ -10,7 +10,9 @@ class a_star:
         self.open_list = []                 
         self.closed_list = []
         self.pq = PriorityQueue()
-        self.nodes = []                      
+        self.nodes = []
+        self.solution_path = []
+        self.solution_cost = 0                        
 
 
     '''
@@ -37,6 +39,8 @@ class a_star:
             self.open_list.remove((fx, current_node, parent_node, cost, gx))
             self.graph.current_state = current_node
 
+            
+
             # Visited nodes
             self.closed_list.append((fx, current_node, parent_node, cost, gx))
 
@@ -44,22 +48,27 @@ class a_star:
             if self.graph.goal():
                 # Show search path
                 print("Search path:")
+
+                print(len(self.closed_list))
+
                 for state in self.closed_list:
                     print(state)
 
-                print("Least cost: {}".format(fx))
+                # self.getSolutionPath()
+
+                print("Least cost: {}".format(self.solution_cost))
                 print("Done!\n")
                 return True
             
             # Get children of current state
             children = self.graph.getChildren(mode)
 
+            
+
             # Only keep the children that aren't in the open or closed list
             for child in children:
 
                 old_state = [state for state in self.closed_list if child[1] == state[1]]                # Find if the state is in the closed list.
-                if len(old_state) == 2:
-                    print(old_state)
                 
                 # Child was not in closed light or child had a greater cost than the one already visited.
                 if not old_state:
@@ -105,4 +114,38 @@ class a_star:
                     self.pq.put((child[0] + fx, child[1], child[2], child[3], child[4]))
                     self.open_list.append((child[0] + fx, child[1], child[2], child[3], child[4]))
                         
+            
+            if self.graph.current_state == [1, 3, 5, 7, 2, 4, 0, 6]:
+                print(children)
+                for state in self.closed_list:
+                    print(state)
+
         return False
+
+    '''
+    Get the solution path from the closed list
+    '''
+    def getSolutionPath(self):
+
+        # Start with the solution and backtrack to the start state
+        self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3]))
+        parent = self.closed_list[-1][2]
+
+        print(parent)
+
+
+        while not parent == None:
+            for state in self.closed_list:
+                if parent == state[1]:
+                    print(parent)
+                    self.solution_path.append((state[1], state[3]))
+                    parent = state[2]
+                    break
+
+        self.solution_path.reverse()
+
+        print("\nSolution Path:")
+
+        for state in self.solution_path:
+            self.solution_cost = self.solution_cost + state[1]
+            print(state)
