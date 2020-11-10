@@ -22,11 +22,5 @@ class Puzzle:
         for i, row in enumerate(split_puzzles):
             for j, col in enumerate(row):
                 split_puzzles[i][j] = int(split_puzzles[i][j])
-                
 
-        # Separate into the correct sizes
-        real_puzzles = []
-        for s in split_puzzles:
-            real_puzzles.append([s[:self.size[1]], s[self.size[1]:]])
-
-        return real_puzzles
+        return split_puzzles

@@ -13,10 +13,9 @@ class Graph:
     Get the position of zero
     '''
     def getZeroPosition(self):
-        for i, row in enumerate(self.current_state):
-                for j, col in enumerate(row):
-                    if(col == 0):
-                        return (i, j)
+        for i, num in enumerate(self.current_state):
+            if(num == 0):
+                return i
 
 
     '''
@@ -40,15 +39,15 @@ class Graph:
         children = []
 
         # Old zero position                
-        old_zero_pos = (self.zero_position[0], self.zero_position[1])
+        # old_zero_pos = (self.zero_position[0], self.zero_position[1])
 
         # Corner positions
-        if self.zero_position == (0, 0):
-            new_zero_positions = [(self.zero_position[0], self.zero_position[1] + 1),
-                                  (self.zero_position[0] + 1, self.zero_position[1]),
-                                  (self.zero_position[0], self.zero_position[1] + 3),
-                                  (self.zero_position[0] + 1, self.zero_position[1] + 1),
-                                  (self.zero_position[0] + 1, self.zero_position[1] + 3)]
+        if self.zero_position == 0:
+            new_zero_positions = [self.zero_position + 1,
+                                  self.zero_position + 4,
+                                  self.zero_position + 3,
+                                  self.zero_position + 5,
+                                  self.zero_position + 7]
             
             for i, position in enumerate(new_zero_positions):
                 if i < 2:
@@ -58,16 +57,16 @@ class Graph:
                 else:
                     cost = 3
 
-                state_copy = copy.deepcopy(self.current_state) # Deep copy
-                state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
+                state_copy = self.current_state.copy() # Deep copy
+                state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 children.append((cost, state_copy, self.current_state))
 
-        elif self.zero_position == (1, 0):
-            new_zero_positions = [(self.zero_position[0], self.zero_position[1] + 1),
-                                  (self.zero_position[0] - 1, self.zero_position[1]),
-                                  (self.zero_position[0], self.zero_position[1] + 3),
-                                  (self.zero_position[0] - 1, self.zero_position[1] + 1),
-                                  (self.zero_position[0] - 1, self.zero_position[1] + 3)]
+        elif self.zero_position == 4:
+            new_zero_positions = [self.zero_position + 1,
+                                  self.zero_position - 4,
+                                  self.zero_position + 3,
+                                  self.zero_position - 3,
+                                  self.zero_position - 1]
             
             for i, position in enumerate(new_zero_positions):
                 if i < 2:
@@ -77,16 +76,16 @@ class Graph:
                 else:
                     cost = 3
 
-                state_copy = copy.deepcopy(self.current_state) # Deep copy
-                state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
+                state_copy = self.current_state.copy() # Deep copy
+                state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 children.append((cost, state_copy, self.current_state))
 
-        elif self.zero_position == (0, 3):
-            new_zero_positions = [(self.zero_position[0], self.zero_position[1] - 1),
-                                  (self.zero_position[0] + 1, self.zero_position[1]),
-                                  (self.zero_position[0], self.zero_position[1] - 3),
-                                  (self.zero_position[0] + 1, self.zero_position[1] - 1),
-                                  (self.zero_position[0] + 1, self.zero_position[1] - 3)]
+        elif self.zero_position == 3:
+            new_zero_positions = [self.zero_position - 1,
+                                  self.zero_position + 4,
+                                  self.zero_position - 3,
+                                  self.zero_position + 3,
+                                  self.zero_position + 1]
             
             for i, position in enumerate(new_zero_positions):
                 if i < 2:
@@ -96,16 +95,16 @@ class Graph:
                 else:
                     cost = 3
 
-                state_copy = copy.deepcopy(self.current_state) # Deep copy
-                state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
+                state_copy = self.current_state.copy() # Deep copy
+                state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 children.append((cost, state_copy, self.current_state))
 
-        elif self.zero_position == (1, 3):
-            new_zero_positions = [(self.zero_position[0], self.zero_position[1] - 1),
-                                  (self.zero_position[0] - 1, self.zero_position[1]),
-                                  (self.zero_position[0], self.zero_position[1] - 3),
-                                  (self.zero_position[0] - 1, self.zero_position[1] - 1),
-                                  (self.zero_position[0] - 1, self.zero_position[1] - 3)]
+        elif self.zero_position == 7:
+            new_zero_positions = [self.zero_position - 1,
+                                  self.zero_position - 4,
+                                  self.zero_position - 3,
+                                  self.zero_position - 5,
+                                  self.zero_position - 7]
             
             for i, position in enumerate(new_zero_positions):
                 if i < 2:
@@ -115,23 +114,23 @@ class Graph:
                 else:
                     cost = 3
 
-                state_copy = copy.deepcopy(self.current_state) # Deep copy
-                state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
+                state_copy = self.current_state.copy() # Deep copy
+                state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 children.append((cost, state_copy, self.current_state))
         else:
             cost = 1
 
             # The possible new positions for the 0 tile
-            new_zero_positions = [(self.zero_position[0], self.zero_position[1] + 1),
-                                  (self.zero_position[0], self.zero_position[1] - 1),
-                                  (self.zero_position[0] + 1 if self.zero_position[0] == 0 else self.zero_position[0] - 1, self.zero_position[1])]
+            new_zero_positions = [self.zero_position + 1,
+                                  self.zero_position - 1,
+                                  self.zero_position + 4 if self.zero_position < 3 else self.zero_position - 4]
 
             # Get all possible children and swap the positions.
             for i, position in enumerate(new_zero_positions):
-                state_copy = copy.deepcopy(self.current_state) # Deep copy
+                state_copy = self.current_state.copy() # Deep copy
 
                 # Swap positions
-                state_copy[position[0]][position[1]], state_copy[old_zero_pos[0]][old_zero_pos[1]] = state_copy[old_zero_pos[0]][old_zero_pos[1]], state_copy[position[0]][position[1]]
+                state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
                 
                 children.append((cost, state_copy, self.current_state))
 
