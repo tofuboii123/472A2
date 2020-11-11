@@ -39,7 +39,6 @@ class a_star:
             self.open_list.remove((fx, current_node, parent_node, cost, gx))
             self.graph.current_state = current_node
 
-            
 
             # Visited nodes
             self.closed_list.append((fx, current_node, parent_node, cost, gx))
@@ -49,12 +48,10 @@ class a_star:
                 # Show search path
                 print("Search path:")
 
-                print(len(self.closed_list))
-
                 for state in self.closed_list:
                     print(state)
 
-                # self.getSolutionPath()
+                self.getSolutionPath()
 
                 print("Least cost: {}".format(self.solution_cost))
                 print("Done!\n")
@@ -108,19 +105,16 @@ class a_star:
                             self.open_list.append((old_states[-1][0], old_states[-1][1], old_states[-1][2], old_states[-1][3], old_states[-1][4]))
 
                 # The child state has a lower cost and must be replaced and revisited to find the shortest path
-                elif child[0] < old_state[0][0]:
-                    self.closed_list.remove(old_state[0])
+                elif child[0] < old_state[0][-1]:
+                    # self.closed_list.remove(old_state[0])
                     self.nodes.append(child[1])
                     self.pq.put((child[0] + fx, child[1], child[2], child[3], child[4]))
                     self.open_list.append((child[0] + fx, child[1], child[2], child[3], child[4]))
-                        
-            
-            if self.graph.current_state == [1, 3, 5, 7, 2, 4, 0, 6]:
-                print(children)
-                for state in self.closed_list:
-                    print(state)
 
+            
         return False
+
+
 
     '''
     Get the solution path from the closed list
@@ -131,13 +125,10 @@ class a_star:
         self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3]))
         parent = self.closed_list[-1][2]
 
-        print(parent)
-
 
         while not parent == None:
             for state in self.closed_list:
                 if parent == state[1]:
-                    print(parent)
                     self.solution_path.append((state[1], state[3]))
                     parent = state[2]
                     break
