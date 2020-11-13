@@ -46,10 +46,10 @@ class a_star:
             # Check if node is goal
             if self.graph.goal():
                 # Show search path
-                print("Search path:")
+                # print("Search path:")
 
-                for state in self.closed_list:
-                    print(state)
+                # for state in self.closed_list:
+                #     print(state)
 
                 self.getSolutionPath()
 
