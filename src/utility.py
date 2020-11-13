@@ -29,8 +29,3 @@ def generatePuzzle(num, size):
         puzzles.append(p)
     
     return puzzles, solutions
-
-p, s = generatePuzzle(5, 8)
-
-print(p)
-print(s)
