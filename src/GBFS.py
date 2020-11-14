@@ -2,8 +2,17 @@ from graph import *
 import queue
 from heapq import *
 from queue import PriorityQueue
+import os
+import time
+from datetime import datetime
+from timeit import Timer
 
 class GBFS:
+    def test(self):
+        print("test")
+
+    def test2(self):
+        Timer(60, self.test()).start()
 
     def __init__(self, graph):
         self.graph = graph
@@ -14,11 +23,11 @@ class GBFS:
         self.solution_path = []
         self.solution_cost = 0                        
 
-
     '''
     Find the solution path using GBFS
     '''
-    def search(self, mode=0):
+    def search(self, mode, return_dict):
+        start_time = time.time()
         print("Searching...")
 
         # Push initial state into PQ
@@ -53,10 +62,13 @@ class GBFS:
                     print(state)
                     
                 self.getSolutionPath()
-
                 print("Least cost: {}".format(self.solution_cost))
+                execution_time = time.time() - start_time
+                print("The search took ", execution_time, " seconds.")
                 print("Done!\n")
-                return True
+                return_dict["success"] = True
+                return_dict["search"] = execution_time
+                return 
             
             # Get children of current state
             children = self.graph.getChildren(mode)
@@ -102,8 +114,8 @@ class GBFS:
                             # Add the new state into the open list
                             self.nodes.append(old_states[-1][1])
                             self.open_list.append((old_states[-1][0], old_states[-1][1], old_states[-1][2], old_states[-1][3]))
-   
-        return False
+        return_dict["success"] = False
+        return 
 
     '''
     Get the solution path from the closed list
@@ -129,3 +141,5 @@ class GBFS:
         for state in self.solution_path:
             self.solution_cost = self.solution_cost + state[1]
             print(state)
+
+    

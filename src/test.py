@@ -4,6 +4,17 @@ from UCS import *
 from heuristic import *
 from a_star import *
 from GBFS import *
+from threading import Timer
+import multiprocessing
+def foo():
+    a_long_time = 1000
+    time.sleep(a_long_time)
+
+def stop_search():
+    if p.is_alive():
+        print('function terminated')
+        p.terminate()
+        p.join()
 
 p = Puzzle("puzzles/test.txt", (2, 4))
 
@@ -31,4 +42,14 @@ test_puzzle5 = [0, 1, 2, 4, 3, 5, 6, 7]
 
 g3 = Graph(goal_states, p.puzzles[1])
 gbfs = GBFS(g3)
-gbfs.search(1)
+
+if __name__ == '__main__':
+    manager = multiprocessing.Manager()
+    return_dict = manager.dict()
+    t = Timer(5, stop_search)
+    t.start()
+    p = multiprocessing.Process(target=gbfs.search(1,return_dict), name="GBFS")
+    p.start()
+    
+    if(return_dict["success"]):
+        t.cancel()
