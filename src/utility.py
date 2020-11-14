@@ -18,14 +18,12 @@ def generatePuzzle(num, size):
     solutions[1].append(0)
 
     for i in range(num):
-        used_nums = []
         p = []
         num = None
         for i in range(size):
-            while num in used_nums or num == None:
+            while num in p or num == None:
                 num = random.randint(0, 7)
             p.append(num)
-            used_nums.append(num)
         puzzles.append(p)
     
     return puzzles, solutions
