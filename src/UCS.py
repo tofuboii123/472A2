@@ -22,7 +22,6 @@ class UCS:
         self.timeout = False 
         self.return_dict = {"success":False, "execution":0}                            
 
-
     '''
     Find the solution path using uniform cost search
     '''
@@ -150,7 +149,6 @@ class UCS:
     Check if the search goes over 60 seconds
     '''
     def check_timeout(self):
-        self.return_dict = {}
         self.p = Thread(target=self.search, name="UCS") #Creating thread for this search function
         t = Timer(60, self.stop_search)                                            #Stop function after 60 seconds
         t.start()                                                                  #Start timer

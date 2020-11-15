@@ -163,7 +163,6 @@ class a_star:
     Check if the search goes over 60 seconds
     '''
     def check_timeout(self, mode):
-        self.return_dict = {}
         self.p = Thread(target=self.search, name="A*", args=(mode,))   #Creating thread for this search function
         t = Timer(60, self.stop_search)                                            #Stop function after 60 seconds
         t.start()                                                                  #Start timer
