@@ -3,11 +3,12 @@ from heuristic import *
 
 class Graph:
 
-    def __init__(self, goal_states, start_state=None):
+    def __init__(self, goal_states, size, start_state=None):
         self.start_state = start_state                      # Start node
         self.goal_states = goal_states                      # Goal states
         self.current_state = self.start_state               # Current state of puzzle
-        self.zero_position = self.getZeroPosition()         
+        self.zero_position = self.getZeroPosition()
+        self.size = size         
 
 
     '''
@@ -44,14 +45,15 @@ class Graph:
         g = [1, 2, 3]
         cost = 0
         hx = 0
+        new_zero_positions = None
 
         # Corner positions
         if self.zero_position == 0:
             new_zero_positions = [self.zero_position + 1,
-                                  self.zero_position + 4,
-                                  self.zero_position + 3,
-                                  self.zero_position + 5,
-                                  self.zero_position + 7]
+                                  self.zero_position + (self.size//2),
+                                  self.zero_position + (self.size//2 - 1),
+                                  self.zero_position + (self.size//2 + 1),
+                                  self.zero_position + (self.size//2 - 1)]
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
@@ -75,14 +77,15 @@ class Graph:
                     cost = g[2]
                     fx = cost + hx
                 
+                moved_tile = state_copy[position]
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
 
-        elif self.zero_position == 4:
+        elif self.zero_position == self.size/2:
             new_zero_positions = [self.zero_position + 1,
-                                  self.zero_position - 4,
-                                  self.zero_position + 3,
-                                  self.zero_position - 3,
+                                  self.zero_position - (self.size//2),
+                                  self.zero_position + (self.size//2 - 1),
+                                  self.zero_position - (self.size//2 - 1),
                                   self.zero_position - 1]
             
             for i, position in enumerate(new_zero_positions):
@@ -105,14 +108,15 @@ class Graph:
                     cost = g[2]
                     fx = g[2] + hx
 
+                moved_tile = state_copy[position]
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
 
-        elif self.zero_position == 3:
+        elif self.zero_position == self.size/2 - 1:
             new_zero_positions = [self.zero_position - 1,
-                                  self.zero_position + 4,
-                                  self.zero_position - 3,
-                                  self.zero_position + 3,
+                                  self.zero_position + (self.size//2),
+                                  self.zero_position - (self.size//2 - 1),
+                                  self.zero_position + (self.size//2 - 1),
                                   self.zero_position + 1]
             
             for i, position in enumerate(new_zero_positions):
@@ -135,15 +139,16 @@ class Graph:
                     cost = g[2]
                     fx = g[2] + hx
 
+                moved_tile = state_copy[position]
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
 
-        elif self.zero_position == 7:
+        elif self.zero_position == self.size - 1:
             new_zero_positions = [self.zero_position - 1,
-                                  self.zero_position - 4,
-                                  self.zero_position - 3,
-                                  self.zero_position - 5,
-                                  self.zero_position - 7]
+                                  self.zero_position - (self.size//2),
+                                  self.zero_position - (self.size//2 - 1),
+                                  self.zero_position - (self.size//2 + 1),
+                                  self.zero_position - int(self.size - 1)]
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
@@ -165,8 +170,9 @@ class Graph:
                     cost = g[2]
                     fx = g[2] + hx
 
+                moved_tile = state_copy[position]
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
         else:
             state_copy = self.current_state.copy()
             if(mode == 0):
@@ -188,9 +194,9 @@ class Graph:
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
 
+                moved_tile = state_copy[position]
                 # Swap positions
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                
-                children.append((fx, state_copy, self.current_state, cost, hx))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
 
         return children
