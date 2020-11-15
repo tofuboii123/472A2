@@ -1,21 +1,19 @@
-import multiprocessing
-import time
-def foo():
-    if p.is_alive()
-        print('function terminated')
-        p.terminate()
-        p.join()
-    a_long_time = 10000000
-    time.sleep(a_long_time)
+def foo(bar, result, index):
+    print('hello {0}'.format(bar))
+    result[index] = "foo"
 
-TIMEOUT = 5 # seconds
-if __name__ == '__main__':
-    p = multiprocessing.Process(target=foo, name="Foo")
-    p.start()
+from threading import Thread
 
-    p.join(TIMEOUT)
+threads = [None] * 10
+results = [None] * 10
 
-    if p.is_alive()
-        print('function terminated')
-        p.terminate()
-        p.join()
+for i in range(len(threads)):
+    threads[i] = Thread(target=foo, args=('world!', results, i))
+    threads[i].start()
+
+# do some other stuff
+
+for i in range(len(threads)):
+    threads[i].join()
+
+print(" ".join(results))  # what sound does a metasyntactic locomotive make?

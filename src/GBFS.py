@@ -2,18 +2,14 @@ from graph import *
 import queue
 from heapq import *
 from queue import PriorityQueue
-import os
 import time
-from datetime import datetime
-from timeit import Timer
+from threading import *
+import multiprocessing
+from multiprocessing import *
+
+_TIMEOUT = False
 
 class GBFS:
-    def test(self):
-        print("test")
-
-    def test2(self):
-        Timer(60, self.test()).start()
-
     def __init__(self, graph):
         self.graph = graph
         self.open_list = []                 
@@ -21,7 +17,9 @@ class GBFS:
         self.pq = PriorityQueue()
         self.nodes = []
         self.solution_path = []
-        self.solution_cost = 0                        
+        self.solution_cost = 0 
+        self.p = Thread(target=self.search, name="GBFS", args=(0, {})) 
+        self.timeout = False                      
 
     '''
     Find the solution path using GBFS
@@ -38,9 +36,9 @@ class GBFS:
         # While there are states in the open list, keep searching
         while not self.pq.empty():
 
-            # TODO
-            # if timeout:
-            #   return False
+            if self.timeout:
+                return_dict["success"] = False
+                return       
 
             # Remove first element from PQ
             hx, current_node, parent_node, cost = self.pq.get()
@@ -53,6 +51,7 @@ class GBFS:
 
             # Check if node is goal
             if self.graph.goal():
+                execution_time = time.time() - start_time
                 # Show search path
                 print("Search path:")
 
@@ -63,12 +62,11 @@ class GBFS:
                     
                 self.getSolutionPath()
                 print("Least cost: {}".format(self.solution_cost))
-                execution_time = time.time() - start_time
-                print("The search took ", execution_time, " seconds.")
+                print("The GBFS search took ", execution_time, " seconds.")
                 print("Done!\n")
                 return_dict["success"] = True
-                return_dict["search"] = execution_time
-                return 
+                return_dict["execution"] = execution_time
+                return
             
             # Get children of current state
             children = self.graph.getChildren(mode)
@@ -114,8 +112,8 @@ class GBFS:
                             # Add the new state into the open list
                             self.nodes.append(old_states[-1][1])
                             self.open_list.append((old_states[-1][0], old_states[-1][1], old_states[-1][2], old_states[-1][3]))
+
         return_dict["success"] = False
-        return 
 
     '''
     Get the solution path from the closed list
@@ -142,4 +140,28 @@ class GBFS:
             self.solution_cost = self.solution_cost + state[1]
             print(state)
 
+    '''
+    End the seaching process if it's longer than 60 seconds
+    '''
+    def stop_search(self):
+        if(self.p.is_alive()):
+            print('Search GBFS is now terminated')
+            self.timeout = True
+            self.p.join()
+        else:
+            print('Search GBFS is already terminated')
+
+    '''
+    Check if the search goes over 60 seconds
+    '''
+    def check_timeout(self, mode):
+        return_dict = {}
+        self.p = Thread(target=self.search, name="GBFS", args=(mode, return_dict)) #Creating thread for this search function
+        t = Timer(60, self.stop_search)                                            #Stop function after 60 seconds
+        t.start()                                                                  #Start timer
+        self.p.start()                                                             #Start search algorithm  
+        self.p.join()                                                              #Joining all the returned values      
+
+        if(return_dict["success"]):
+            t.cancel()                                                             #Stopping timer if the search was done before timeout
     

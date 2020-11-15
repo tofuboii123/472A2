@@ -2,6 +2,10 @@ from graph import *
 import queue
 from heapq import *
 from queue import PriorityQueue
+import time
+from threading import *
+import multiprocessing
+from multiprocessing import *
 
 class a_star:
 
@@ -12,13 +16,16 @@ class a_star:
         self.pq = PriorityQueue()
         self.nodes = []
         self.solution_path = []
-        self.solution_cost = 0                        
+        self.solution_cost = 0 
+        self.p = Thread(target=self.search, name="UCS", args=(0, {}))
+        self.timeout = False                            
 
 
     '''
     Find the solution path using A*
     '''
-    def search(self, mode=0):
+    def search(self, mode, return_dict):
+        start_time = time.time()
         print("Searching...")
 
         # Push initial state into PQ
@@ -29,9 +36,9 @@ class a_star:
         # While there are states in the open list, keep searching
         while not self.pq.empty():
 
-            # TODO
-            # if timeout:
-            #   return False
+            if self.timeout:
+                return_dict["success"] = False
+                return 
 
             # Remove first element from PQ
             fx, current_node, parent_node, cost, gx = self.pq.get()
@@ -45,6 +52,7 @@ class a_star:
 
             # Check if node is goal
             if self.graph.goal():
+                execution_time = time.time() - start_time
                 # Show search path
                 # print("Search path:")
 
@@ -54,13 +62,14 @@ class a_star:
                 self.getSolutionPath()
 
                 print("Least cost: {}".format(self.solution_cost))
+                print("The A* search took ", execution_time, " seconds.")
                 print("Done!\n")
-                return True
+                return_dict["success"] = True
+                return_dict["search"] = execution_time
+                return 
             
             # Get children of current state
             children = self.graph.getChildren(mode)
-
-            
 
             # Only keep the children that aren't in the open or closed list
             for child in children:
@@ -111,10 +120,7 @@ class a_star:
                     self.pq.put((child[0] + fx, child[1], child[2], child[3], child[4]))
                     self.open_list.append((child[0] + fx, child[1], child[2], child[3], child[4]))
 
-            
-        return False
-
-
+        return_dict["success"] = False
 
     '''
     Get the solution path from the closed list
@@ -140,3 +146,28 @@ class a_star:
         for state in self.solution_path:
             self.solution_cost = self.solution_cost + state[1]
             print(state)
+
+    '''
+    End the seaching process if it's longer than 60 seconds
+    '''
+    def stop_search(self):
+        if(self.p.is_alive()):
+            print('Search A* is now terminated')
+            self.timeout = True
+            self.p.join()
+        else:
+            print('Search A* is already terminated')
+
+    '''
+    Check if the search goes over 60 seconds
+    '''
+    def check_timeout(self, mode):
+        return_dict = {}
+        self.p = Thread(target=self.search, name="A*", args=(mode, return_dict)) #Creating thread for this search function
+        t = Timer(60, self.stop_search)                                            #Stop function after 60 seconds
+        t.start()                                                                  #Start timer
+        self.p.start()                                                             #Start search algorithm  
+        self.p.join()                                                              #Joining all the returned values      
+
+        if(return_dict["success"]):
+            t.cancel()                                                             #Stopping timer if the search was done before timeout
