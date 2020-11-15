@@ -22,7 +22,7 @@ def generatePuzzle(num, size):
         num = None
         for i in range(size):
             while num in p or num == None:
-                num = random.randint(0, 7)
+                num = random.randint(0, size - 1)
             p.append(num)
         puzzles.append(p)
     

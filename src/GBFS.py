@@ -3,7 +3,7 @@ import queue
 from heapq import *
 from queue import PriorityQueue
 import time
-from threading import *
+from threading import Timer, Thread
 import multiprocessing
 from multiprocessing import *
 
