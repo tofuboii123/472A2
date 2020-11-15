@@ -28,23 +28,23 @@ test_puzzle5 = [1, 3, 5, 7, 0, 2, 4, 6]
 test_puzzle6 = [0, 4, 3, 7, 2, 1, 5, 6]
 test_puzzle7 = [6, 5, 3, 4, 0, 1, 2, 7]
 
+puzzles, goal_states = generatePuzzle(1, 8)
+print(puzzles)
 
-puzzles, goal_states = generatePuzzle(5, 8)
+for i, puzzle in enumerate(puzzles):
+    g = Graph(goal_states, len(puzzle), puzzle)
+        
+    aStar = a_star(g)
+    gbfs = GBFS(g)
 
-# for i, puzzle in enumerate(p.puzzles):
-g = Graph(goal_states, test_puzzle4)
-    
-aStar = a_star(g)
-    # gbfs = GBFS(g)
+    # ucs = UCS(g)
 
-ucs = UCS(g)
-
-aStar.check_timeout(1)
+    aStar.check_timeout(1)
     # aStar.check_timeout(2)
 
-ucs.check_timeout()
+    # ucs.check_timeout()
     
-    # gbfs.check_timeout(1)
+    gbfs.check_timeout(1)
     # gbfs.check_timeout(2)
 
 # g1 = Graph(goal_states, test_puzzle7)
