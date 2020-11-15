@@ -7,8 +7,6 @@ from threading import *
 import multiprocessing
 from multiprocessing import *
 
-_TIMEOUT = False
-
 class GBFS:
     def __init__(self, graph):
         self.graph = graph
@@ -19,7 +17,8 @@ class GBFS:
         self.solution_path = []
         self.solution_cost = 0 
         self.p = Thread(target=self.search, name="GBFS", args=(0, {})) 
-        self.timeout = False                      
+        self.timeout = False    
+        self.return_dict = {}                 
 
     '''
     Find the solution path using GBFS
@@ -29,8 +28,8 @@ class GBFS:
         print("Searching...")
 
         # Push initial state into PQ
-        self.pq.put((0, self.graph.start_state, None, 0))
-        self.open_list.append((0, self.graph.start_state, None, 0))
+        self.pq.put((0, self.graph.start_state, None, 0, 0))
+        self.open_list.append((0, self.graph.start_state, None, 0, 0))
         self.nodes.append(self.graph.start_state)
 
         # While there are states in the open list, keep searching
@@ -41,13 +40,13 @@ class GBFS:
                 return       
 
             # Remove first element from PQ
-            hx, current_node, parent_node, cost = self.pq.get()
+            hx, current_node, parent_node, cost, fx = self.pq.get()
             self.nodes.remove(current_node)
-            self.open_list.remove((hx, current_node, parent_node, cost))
+            self.open_list.remove((hx, current_node, parent_node, cost, fx))
             self.graph.current_state = current_node
 
             # Visited nodes
-            self.closed_list.append((hx, current_node, parent_node, cost))
+            self.closed_list.append((hx, current_node, parent_node, cost, fx))
 
             # Check if node is goal
             if self.graph.goal():
@@ -82,8 +81,8 @@ class GBFS:
                     # Child has never been visited so we can add it
                     if not child[1] in self.nodes:
                         self.nodes.append(child[1])
-                        self.pq.put((child[4], child[1], child[2], child[3]))
-                        self.open_list.append((child[4], child[1], child[2], child[3]))
+                        self.pq.put((child[4], child[1], child[2], child[3], 0))
+                        self.open_list.append((child[4], child[1], child[2], child[3], 0))
                     else:
                         old_state = [state for state in self.open_list if child[1] == state[1]]          # Get the state that has the same one as the child
                         
@@ -103,7 +102,7 @@ class GBFS:
                                 old_states.append(state)
 
                             # Switch the old state with the new child with a lesser cost (We know for sure it's the last one)
-                            old_states[-1] = (child[4], child[1], child[2], child[3])                      
+                            old_states[-1] = (child[4], child[1], child[2], child[3], 0)                      
 
                             # Put all the removed states back into the PQ
                             for s in old_states:
@@ -111,7 +110,7 @@ class GBFS:
 
                             # Add the new state into the open list
                             self.nodes.append(old_states[-1][1])
-                            self.open_list.append((old_states[-1][0], old_states[-1][1], old_states[-1][2], old_states[-1][3]))
+                            self.open_list.append((old_states[-1][0], old_states[-1][1], old_states[-1][2], old_states[-1][3], 0))
 
         return_dict["success"] = False
 
