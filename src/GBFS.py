@@ -52,15 +52,12 @@ class GBFS:
             if self.graph.goal():
                 execution_time = time.time() - start_time
                 # Show search path
-                print("Search path:")
+                # print("Search path:")
 
-                print(len(self.closed_list))
-
-                for state in self.closed_list:
-                    print(state)
-                    
+                # for state in self.closed_list:
+                #     print(state)
                 self.getSolutionPath()
-                print("Least cost: {}".format(self.solution_cost))
+                print("Cost: {}".format(self.solution_cost))
                 print("The GBFS search took ", execution_time, " seconds.")
                 print("Done!\n")
                 return_dict["success"] = True
@@ -73,10 +70,10 @@ class GBFS:
             # Only keep the children that aren't in the open or closed list
             for child in children:
 
-                old_state = [state for state in self.closed_list if child[1] == state[1]]                # Find if the state is in the closed list.
+                visited_states = [state for state in self.closed_list if child[1] == state[1]]                # Find if the state is in the closed list.
                 
                 # Child was not in closed list or child had a greater cost than the one already visited.
-                if not old_state:
+                if not visited_states:
 
                     # Child has never been visited so we can add it
                     if not child[1] in self.nodes:
@@ -84,12 +81,12 @@ class GBFS:
                         self.pq.put((child[4], child[1], child[2], child[3], 0))
                         self.open_list.append((child[4], child[1], child[2], child[3], 0))
                     else:
-                        old_state = [state for state in self.open_list if child[1] == state[1]]          # Get the state that has the same one as the child
+                        visited_states = [state for state in self.open_list if child[1] == state[1]]          # Get the state that has the same one as the child
                         
                         # Compare the costs (Don't forget to do the sum of the cost)
-                        if child[4] < old_state[0][0]:                                              # We know there can only be 1 old_state that's the same as the child
-                            self.nodes.remove(old_state[0][1])                                           # Remove from the open list
-                            self.open_list.remove(old_state[0])
+                        if child[4] < visited_states[0][0]:                                              # We know there can only be 1 old_state that's the same as the child
+                            self.nodes.remove(visited_states[0][1])                                           # Remove from the open list
+                            self.open_list.remove(visited_states[0])
                             
                             old_states = []
                             
@@ -122,11 +119,10 @@ class GBFS:
         # Start with the solution and backtrack to the start state
         self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3]))
         parent = self.closed_list[-1][2]
-        print("\nParent:")
+
         while not parent == None:
             for state in self.closed_list:
                 if parent == state[1]:
-                    print(parent)
                     self.solution_path.append((state[1], state[3]))
                     parent = state[2]
                     break
