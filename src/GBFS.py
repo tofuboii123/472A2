@@ -18,7 +18,7 @@ class GBFS:
         self.solution_cost = 0 
         self.p = Thread(target=self.search, name="GBFS", args=(0, {})) 
         self.timeout = False    
-        self.return_dict = {}                 
+        self.return_dict = {"success":False, "execution":0}                 
 
     '''
     Find the solution path using GBFS
@@ -28,25 +28,25 @@ class GBFS:
         print("Searching...")
 
         # Push initial state into PQ
-        self.pq.put((0, self.graph.start_state, None, 0, 0))
-        self.open_list.append((0, self.graph.start_state, None, 0, 0))
+        self.pq.put((0, self.graph.start_state, None, 0, 0, 0))
+        self.open_list.append((0, self.graph.start_state, None, 0, 0, 0))
         self.nodes.append(self.graph.start_state)
 
         # While there are states in the open list, keep searching
         while not self.pq.empty():
 
             if self.timeout:
-                return_dict["success"] = False
+                self.return_dict["success"] = False
                 return       
 
             # Remove first element from PQ
-            hx, current_node, parent_node, cost, fx = self.pq.get()
+            hx, current_node, parent_node, cost, fx, moved_title = self.pq.get()
             self.nodes.remove(current_node)
-            self.open_list.remove((hx, current_node, parent_node, cost, fx))
+            self.open_list.remove((hx, current_node, parent_node, cost, fx, moved_title))
             self.graph.current_state = current_node
 
             # Visited nodes
-            self.closed_list.append((hx, current_node, parent_node, cost, fx))
+            self.closed_list.append((hx, current_node, parent_node, cost, fx, moved_title))
 
             # Check if node is goal
             if self.graph.goal():
@@ -60,8 +60,8 @@ class GBFS:
                 print("Cost: {}".format(self.solution_cost))
                 print("The GBFS search took ", execution_time, " seconds.")
                 print("Done!\n")
-                return_dict["success"] = True
-                return_dict["execution"] = execution_time
+                self.return_dict["success"] = True
+                self.return_dict["execution"] = execution_time
                 return
             
             # Get children of current state
@@ -78,8 +78,8 @@ class GBFS:
                     # Child has never been visited so we can add it
                     if not child[1] in self.nodes:
                         self.nodes.append(child[1])
-                        self.pq.put((child[4], child[1], child[2], child[3], 0))
-                        self.open_list.append((child[4], child[1], child[2], child[3], 0))
+                        self.pq.put((child[4], child[1], child[2], child[3], 0, child[5]))
+                        self.open_list.append((child[4], child[1], child[2], child[3], 0, child[5]))
                     else:
                         visited_states = [state for state in self.open_list if child[1] == state[1]]          # Get the state that has the same one as the child
                         
@@ -99,7 +99,7 @@ class GBFS:
                                 old_states.append(state)
 
                             # Switch the old state with the new child with a lesser cost (We know for sure it's the last one)
-                            old_states[-1] = (child[4], child[1], child[2], child[3], 0)                      
+                            old_states[-1] = (child[4], child[1], child[2], child[3], 0, child[5])                      
 
                             # Put all the removed states back into the PQ
                             for s in old_states:
@@ -107,7 +107,7 @@ class GBFS:
 
                             # Add the new state into the open list
                             self.nodes.append(old_states[-1][1])
-                            self.open_list.append((old_states[-1][0], old_states[-1][1], old_states[-1][2], old_states[-1][3], 0))
+                            self.open_list.append(old_states[-1])
 
         return_dict["success"] = False
 
@@ -157,6 +157,6 @@ class GBFS:
         self.p.start()                                                             #Start search algorithm  
         self.p.join()                                                              #Joining all the returned values      
 
-        if(return_dict["success"]):
+        if(self.return_dict["success"] == True):
             t.cancel()                                                             #Stopping timer if the search was done before timeout
     
