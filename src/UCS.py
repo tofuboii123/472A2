@@ -2,6 +2,11 @@ from graph import *
 import queue
 from heapq import *
 from queue import PriorityQueue
+import time
+from threading import *
+import multiprocessing
+from multiprocessing import *
+
 
 class UCS:
 
@@ -12,13 +17,16 @@ class UCS:
         self.pq = PriorityQueue()
         self.nodes = []
         self.solution_path = []
-        self.solution_cost = 0                      
+        self.solution_cost = 0  
+        self.p = Thread(target=self.search, name="UCS", args=({}))
+        self.timeout = False                        
 
 
     '''
     Find the solution path using uniform cost search
     '''
-    def search(self):
+    def search(self, return_dict):
+        start_time = time.time()
         print("Searching...")
 
         # Push initial state into PQ
@@ -29,9 +37,9 @@ class UCS:
         # While there are states in the open list, keep searching
         while not self.pq.empty():
 
-            # TODO
-            # if timeout:
-            #   return False
+            if self.timeout:
+                return_dict["success"] = False
+                return 
 
             # Remove first element from PQ
             fx, current_node, parent_node, cost, gx = self.pq.get()
@@ -44,6 +52,7 @@ class UCS:
 
             # Check if node is goal
             if self.graph.goal():
+                execution_time = time.time() - start_time
                 # Show search path
                 print("Search path:")
                 for state in self.closed_list:
@@ -52,8 +61,11 @@ class UCS:
                 self.getSolutionPath()
 
                 print("Least cost: {}".format(self.solution_cost))
+                print("The UCS search took ", execution_time, " seconds.")
                 print("Done!\n")
-                return True
+                return_dict["success"] = True
+                return_dict["execution"] = execution_time
+                return
             
             # Get children of current state
             children = self.graph.getChildren()
@@ -96,8 +108,8 @@ class UCS:
                             # Add the new state into the open list
                             self.nodes.append(old_states[-1][1])
                             self.open_list.append((old_states[-1][0], old_states[-1][1], old_states[-1][2], old_states[-1][3], old_states[-1][4]))
-                        
-        return False
+        
+        return_dict["success"] = False             
 
     '''
     Get the solution path from the closed list
@@ -123,4 +135,27 @@ class UCS:
             self.solution_cost = self.solution_cost + state[1]
             print(state)
 
+    '''
+    End the seaching process if it's longer than 60 seconds
+    '''
+    def stop_search(self):
+        if(self.p.is_alive()):
+            print('Search UCS is now terminated')
+            self.timeout = True
+            self.p.join()
+        else:
+            print('Search UCS is already terminated')
 
+    '''
+    Check if the search goes over 60 seconds
+    '''
+    def check_timeout(self):
+        return_dict = {}
+        self.p = Thread(target=self.search, name="UCS", args=(return_dict,)) #Creating thread for this search function
+        t = Timer(60, self.stop_search)                                            #Stop function after 60 seconds
+        t.start()                                                                  #Start timer
+        self.p.start()                                                             #Start search algorithm  
+        self.p.join()                                                              #Joining all the returned values      
+
+        if(return_dict["success"]):
+            t.cancel()                                                             #Stopping timer if the search was done before timeout

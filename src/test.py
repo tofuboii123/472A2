@@ -31,16 +31,24 @@ test_puzzle7 = [6, 5, 3, 4, 0, 1, 2, 7]
 
 puzzles, goal_states = generatePuzzle(5, 8)
 
-# for puzzle in puzzles:
-#     g = Graph(goal_states, puzzle)
-#     aStar = a_star(g)
-#     aStar.search(1)
-    # ucs = UCS(g)
-    # ucs.search()
+for puzzle in puzzles:
+    g = Graph(goal_states, puzzle)
+    
+    aStar = a_star(g)
+    gbfs = GBFS(g)
+    ucs = UCS(g)
 
-g1 = Graph(goal_states, test_puzzle7)
-ucs = UCS(g1)
-ucs.search()
+    aStar.check_timeout(1)
+    aStar.check_timeout(2)
+
+    ucs.check_timeout()
+    
+    gbfs.check_timeout(1)
+    gbfs.check_timeout(2)
+
+# g1 = Graph(goal_states, test_puzzle7)
+# ucs = UCS(g1)
+# ucs.search()
 
 # aStar = a_star(g1)
 # # aStar.search(1)
@@ -50,17 +58,5 @@ ucs.search()
 # ucs2 = UCS(g2)
 # ucs2.search()
 
-g3 = Graph(goal_states, p.puzzles[1])
-gbfs = GBFS(g3)
-
-if __name__ == '__main__':
-    manager = multiprocessing.Manager()
-    return_dict = manager.dict()
-    x = time.time()
-    t = Timer(60, stop_search)
-    t.start()
-    p = multiprocessing.Process(target=gbfs.search(1,return_dict), name="GBFS")
-    p.start()
-    
-    if(return_dict["success"]):
-        t.cancel()
+# g3 = Graph(goal_states, p.puzzles[1])
+# gbfs = GBFS(g3)
