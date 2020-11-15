@@ -19,13 +19,14 @@ class UCS:
         self.solution_path = []
         self.solution_cost = 0  
         self.p = Thread(target=self.search, name="UCS", args=({}))
-        self.timeout = False                        
+        self.timeout = False 
+        self.return_dict = {"success":False, "execution":0}                            
 
 
     '''
     Find the solution path using uniform cost search
     '''
-    def search(self, return_dict):
+    def search(self):
         start_time = time.time()
         print("Searching...")
 
@@ -38,7 +39,7 @@ class UCS:
         while not self.pq.empty():
 
             if self.timeout:
-                return_dict["success"] = False
+                self.return_dict["success"] = False
                 return 
 
             # Remove first element from PQ
@@ -62,8 +63,8 @@ class UCS:
                 print("Cost: {}".format(self.solution_cost))
                 print("The UCS search took ", execution_time, " seconds.")
                 print("Done!\n")
-                return_dict["success"] = True
-                return_dict["execution"] = execution_time
+                self.return_dict["success"] = True
+                self.return_dict["execution"] = execution_time
                 return
             
             # Get children of current state
@@ -108,7 +109,7 @@ class UCS:
                             self.nodes.append(old_states[-1][1])
                             self.open_list.append(old_states[-1])
         
-        return_dict["success"] = False             
+        self.return_dict["success"] = False             
 
     '''
     Get the solution path from the closed list
@@ -149,12 +150,12 @@ class UCS:
     Check if the search goes over 60 seconds
     '''
     def check_timeout(self):
-        return_dict = {}
-        self.p = Thread(target=self.search, name="UCS", args=(return_dict,)) #Creating thread for this search function
+        self.return_dict = {}
+        self.p = Thread(target=self.search, name="UCS") #Creating thread for this search function
         t = Timer(60, self.stop_search)                                            #Stop function after 60 seconds
         t.start()                                                                  #Start timer
         self.p.start()                                                             #Start search algorithm  
         self.p.join()                                                              #Joining all the returned values      
 
-        if(return_dict["success"]):
+        if(self.return_dict["success"]):
             t.cancel()                                                             #Stopping timer if the search was done before timeout

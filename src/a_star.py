@@ -18,13 +18,14 @@ class a_star:
         self.solution_path = []
         self.solution_cost = 0 
         self.p = Thread(target=self.search, name="UCS", args=(0, {}))
-        self.timeout = False                            
+        self.timeout = False 
+        self.return_dict = {"success":False, "execution":0}                                
 
 
     '''
     Find the solution path using A*
     '''
-    def search(self, mode, return_dict):
+    def search(self, mode):
         start_time = time.time()
         print("Searching...")
 
@@ -37,7 +38,7 @@ class a_star:
         while not self.pq.empty():
 
             if self.timeout:
-                return_dict["success"] = False
+                self.return_dict["success"] = False
                 return 
 
             # Remove first element from PQ
@@ -64,8 +65,8 @@ class a_star:
                 print("Cost: {}".format(self.solution_cost))
                 print("The A* search took ", execution_time, " seconds.")
                 print("Done!\n")
-                return_dict["success"] = True
-                return_dict["search"] = execution_time
+                self.return_dict["success"] = True
+                self.return_dict["search"] = execution_time
                 return 
             
             # Get children of current state
@@ -120,7 +121,7 @@ class a_star:
                     self.pq.put((child[0] + fx, child[1], child[2], child[3], child[4], child[5]))
                     self.open_list.append((child[0] + fx, child[1], child[2], child[3], child[4], child[5]))
 
-        return_dict["success"] = False
+        self.return_dict["success"] = False
 
     '''
     Get the solution path from the closed list
@@ -162,12 +163,12 @@ class a_star:
     Check if the search goes over 60 seconds
     '''
     def check_timeout(self, mode):
-        return_dict = {}
-        self.p = Thread(target=self.search, name="A*", args=(mode, return_dict))   #Creating thread for this search function
+        self.return_dict = {}
+        self.p = Thread(target=self.search, name="A*", args=(mode,))   #Creating thread for this search function
         t = Timer(60, self.stop_search)                                            #Stop function after 60 seconds
         t.start()                                                                  #Start timer
         self.p.start()                                                             #Start search algorithm  
         self.p.join()                                                              #Joining all the returned values      
 
-        if(return_dict["success"]):
+        if(self.return_dict["success"]):
             t.cancel()                                                             #Stopping timer if the search was done before timeout

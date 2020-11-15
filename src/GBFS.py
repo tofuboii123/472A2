@@ -23,7 +23,7 @@ class GBFS:
     '''
     Find the solution path using GBFS
     '''
-    def search(self, mode, return_dict):
+    def search(self, mode):
         start_time = time.time()
         print("Searching...")
 
@@ -109,7 +109,7 @@ class GBFS:
                             self.nodes.append(old_states[-1][1])
                             self.open_list.append(old_states[-1])
 
-        return_dict["success"] = False
+        self.return_dict["success"] = False
 
     '''
     Get the solution path from the closed list
@@ -150,8 +150,8 @@ class GBFS:
     Check if the search goes over 60 seconds
     '''
     def check_timeout(self, mode):
-        return_dict = {}
-        self.p = Thread(target=self.search, name="GBFS", args=(mode, return_dict)) #Creating thread for this search function
+        self.return_dict = {}
+        self.p = Thread(target=self.search, name="GBFS", args=(mode,)) #Creating thread for this search function
         t = Timer(60, self.stop_search)                                            #Stop function after 60 seconds
         t.start()                                                                  #Start timer
         self.p.start()                                                             #Start search algorithm  
