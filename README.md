@@ -1,4 +1,4 @@
-Github URL: https://github.com/tofuboii123/472_A2 
+Github URL: https://github.com/tofuboii123/472A2 
 Assignment 2
 
 Team AyeAyeAI:
