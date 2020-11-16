@@ -40,13 +40,13 @@ class GBFS:
                 return       
 
             # Remove first element from PQ
-            hx, current_node, parent_node, cost, fx, moved_title = self.pq.get()
+            hx, current_node, parent_node, cost, fx, moved_tile = self.pq.get()
             self.nodes.remove(current_node)
-            self.open_list.remove((hx, current_node, parent_node, cost, fx, moved_title))
+            self.open_list.remove((hx, current_node, parent_node, cost, fx, moved_tile))
             self.graph.current_state = current_node
 
             # Visited nodes
-            self.closed_list.append((hx, current_node, parent_node, cost, fx, moved_title))
+            self.closed_list.append((hx, current_node, parent_node, cost, fx, moved_tile))
 
             # Check if node is goal
             if self.graph.goal():

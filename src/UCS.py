@@ -17,7 +17,7 @@ class UCS:
         self.pq = PriorityQueue()
         self.nodes = []
         self.solution_path = []
-        self.solution_cost = 0  
+        self.solution_cost = 0
         self.p = Thread(target=self.search, name="UCS", args=({}))
         self.timeout = False 
         self.return_dict = {"success":False, "execution":0}                            
@@ -42,13 +42,13 @@ class UCS:
                 return 
 
             # Remove first element from PQ
-            fx, current_node, parent_node, cost, gx, moved_tile = self.pq.get()
+            fx, current_node, parent_node, cost, hx, moved_tile = self.pq.get()
             self.nodes.remove(current_node)
-            self.open_list.remove((fx, current_node, parent_node, cost, gx, moved_tile))
+            self.open_list.remove((fx, current_node, parent_node, cost, hx, moved_tile))
             self.graph.current_state = current_node
 
             # Visited nodes
-            self.closed_list.append((fx, current_node, parent_node, cost, gx, moved_tile))
+            self.closed_list.append((fx, current_node, parent_node, cost, hx, moved_tile))
 
             # Check if node is goal
             if self.graph.goal():
