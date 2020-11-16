@@ -57,7 +57,7 @@ class Graph:
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
-
+                # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = 0
                 elif(mode == 1):
@@ -94,7 +94,7 @@ class Graph:
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
-
+                # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = 0
                 elif(mode == 1):
@@ -129,7 +129,7 @@ class Graph:
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
-
+                # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = 0
                 elif(mode == 1):
@@ -164,7 +164,7 @@ class Graph:
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
-
+                # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = 0
                 elif(mode == 1):
@@ -191,6 +191,7 @@ class Graph:
                 children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
         else:
             state_copy = self.current_state.copy()
+            # Different heuristic values depending on mode
             if(mode == 0):
                 hx = 0
             elif(mode == 1):

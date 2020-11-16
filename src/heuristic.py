@@ -1,6 +1,3 @@
-import numpy as np
-
-
 # Compare 2 arrays used for hammingDistance
 def compareArr(arr1, arr2):
     numOfIncorrectPos = 0
@@ -55,8 +52,6 @@ def checkHelper(arr, isTop=True):
 
 # 1 - Hamming Distance calculate tiles out of place
 def hammingDistance(test_puzzle, goal_states):
-
-    # print("Hamming Distance :")
     #Array to get the number of error per goal state
     errorPerGoalState = []
 
@@ -73,7 +68,7 @@ def hammingDistance(test_puzzle, goal_states):
 
 # 2 - Alternate version of Manhattan heuristic as 1D states instead of 2D
 def oneDimensionDistance(test_puzzle, goal_states):
-    # print("One Dimension Distance: ")
+
     #Array to get the number of error per goal state
     errorPerGoalState = []
 
@@ -118,12 +113,3 @@ def naive(test_puzzle):
         return 0
     else:
         return 1
-        
-
-# Test Section
-# goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
-# test_puzzle = [1, 2, 3, 4, 5, 6, 0, 7]  
-
-# print(hammingDistance(test_puzzle, goal_states))
-# print(oneDimensionDistance(test_puzzle, goal_states))
-# print(newCheck(test_puzzle,goal_states))

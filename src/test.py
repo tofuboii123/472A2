@@ -28,10 +28,7 @@ test_puzzle5 = [1, 3, 5, 7, 0, 2, 4, 6]
 test_puzzle6 = [0, 4, 3, 7, 2, 1, 5, 6]
 test_puzzle7 = [6, 5, 3, 4, 0, 1, 2, 7]
 
-
 puzzles, goal_states = generatePuzzle(2, 8)
-
-
 
 for i, puzzle in enumerate(puzzles):
     g = Graph(goal_states, len(puzzle), puzzle)
@@ -55,3 +52,4 @@ for i, puzzle in enumerate(puzzles):
     writeSolutionToFile(i, "ucs", ucs)
 
     # gbfs.check_timeout(2)
+    
