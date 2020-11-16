@@ -17,7 +17,7 @@ class UCS:
         self.pq = PriorityQueue()
         self.nodes = []
         self.solution_path = []
-        self.solution_cost = 0  
+        self.solution_cost = 0
         self.p = Thread(target=self.search, name="UCS", args=({}))
         self.timeout = False 
         self.return_dict = {"success":False, "execution":0}                            
@@ -42,13 +42,13 @@ class UCS:
                 return 
 
             # Remove first element from PQ
-            fx, current_node, parent_node, cost, gx, moved_tile = self.pq.get()
+            fx, current_node, parent_node, cost, hx, moved_tile = self.pq.get()
             self.nodes.remove(current_node)
-            self.open_list.remove((fx, current_node, parent_node, cost, gx, moved_tile))
+            self.open_list.remove((fx, current_node, parent_node, cost, hx, moved_tile))
             self.graph.current_state = current_node
 
             # Visited nodes
-            self.closed_list.append((fx, current_node, parent_node, cost, gx, moved_tile))
+            self.closed_list.append((fx, current_node, parent_node, cost, hx, moved_tile))
 
             # Check if node is goal
             if self.graph.goal():
@@ -116,13 +116,13 @@ class UCS:
     def getSolutionPath(self):
 
         # Start with the solution and backtrack to the start state
-        self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3]))
+        self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3], self.closed_list[-1][5]))
         parent = self.closed_list[-1][2]
 
         while not parent == None:
             for state in self.closed_list:
                 if parent == state[1]:
-                    self.solution_path.append((state[1], state[3]))
+                    self.solution_path.append((state[1], state[3], state[5]))
                     parent = state[2]
                     break
 

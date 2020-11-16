@@ -40,13 +40,13 @@ class GBFS:
                 return       
 
             # Remove first element from PQ
-            hx, current_node, parent_node, cost, fx, moved_title = self.pq.get()
+            hx, current_node, parent_node, cost, fx, moved_tile = self.pq.get()
             self.nodes.remove(current_node)
-            self.open_list.remove((hx, current_node, parent_node, cost, fx, moved_title))
+            self.open_list.remove((hx, current_node, parent_node, cost, fx, moved_tile))
             self.graph.current_state = current_node
 
             # Visited nodes
-            self.closed_list.append((hx, current_node, parent_node, cost, fx, moved_title))
+            self.closed_list.append((hx, current_node, parent_node, cost, fx, moved_tile))
 
             # Check if node is goal
             if self.graph.goal():
@@ -117,13 +117,13 @@ class GBFS:
     def getSolutionPath(self):
 
         # Start with the solution and backtrack to the start state
-        self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3]))
+        self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3], self.closed_list[-1][5]))
         parent = self.closed_list[-1][2]
 
         while not parent == None:
             for state in self.closed_list:
                 if parent == state[1]:
-                    self.solution_path.append((state[1], state[3]))
+                    self.solution_path.append((state[1], state[3], state[5]))
                     parent = state[2]
                     break
 

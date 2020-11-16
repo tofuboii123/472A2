@@ -57,13 +57,17 @@ class Graph:
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
-
+                # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = 0
                 elif(mode == 1):
                     hx = hammingDistance(state_copy, self.goal_states)
                 elif(mode == 2):
                     hx = oneDimensionDistance(state_copy, self.goal_states)
+                elif mode == 3:
+                    hx = newCheck(state_copy, self.goal_states)
+                elif mode == 4:
+                    hx = naive(state_copy)
 
                 h.append(hx)
 
@@ -90,13 +94,17 @@ class Graph:
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
-
+                # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = 0
                 elif(mode == 1):
                     hx = hammingDistance(state_copy, self.goal_states)
                 elif(mode == 2):
                     hx = oneDimensionDistance(state_copy, self.goal_states)
+                elif mode == 3:
+                    hx = newCheck(state_copy, self.goal_states)
+                elif mode == 4:
+                    hx = naive(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -121,13 +129,17 @@ class Graph:
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
-
+                # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = 0
                 elif(mode == 1):
                     hx = hammingDistance(state_copy, self.goal_states)
                 elif(mode == 2):
                     hx = oneDimensionDistance(state_copy, self.goal_states)
+                elif mode == 3:
+                    hx = newCheck(state_copy, self.goal_states)
+                elif mode == 4:
+                    hx = naive(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -152,13 +164,17 @@ class Graph:
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
-
+                # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = 0
                 elif(mode == 1):
                     hx = hammingDistance(state_copy, self.goal_states)
                 elif(mode == 2):
                     hx = oneDimensionDistance(state_copy, self.goal_states)
+                elif mode == 3:
+                    hx = newCheck(state_copy, self.goal_states)
+                elif mode == 4:
+                    hx = naive(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -175,12 +191,17 @@ class Graph:
                 children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
         else:
             state_copy = self.current_state.copy()
+            # Different heuristic values depending on mode
             if(mode == 0):
                 hx = 0
             elif(mode == 1):
                 hx = hammingDistance(state_copy, self.goal_states)
             elif(mode == 2):
                 hx = oneDimensionDistance(state_copy, self.goal_states)
+            elif mode == 3:
+                hx = newCheck(state_copy, self.goal_states)
+            elif mode == 4:
+                    hx = naive(state_copy)
 
             cost = g[0]
             fx = g[0] + hx
