@@ -140,14 +140,14 @@ class a_star:
     def getSolutionPath(self):
 
         # Start with the solution and backtrack to the start state
-        self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3]))
+        self.solution_path.append((self.closed_list[-1][1], self.closed_list[-1][3], self.closed_list[-1][5]))
         parent = self.closed_list[-1][2]
 
 
         while not parent == None:
             for state in self.closed_list:
                 if parent == state[1]:
-                    self.solution_path.append((state[1], state[3]))
+                    self.solution_path.append((state[1], state[3], state[5]))
                     parent = state[2]
                     break
 

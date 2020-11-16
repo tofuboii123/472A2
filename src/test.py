@@ -50,5 +50,8 @@ for i, puzzle in enumerate(puzzles):
     writeSearchToFile(i, "gbfs-h1", gbfs)
     writeSearchToFile(i, "ucs", ucs)
 
+    writeSolutionToFile(i, "astar-h1", aStar)
+    writeSolutionToFile(i, "gbfs-h1", gbfs)
+    writeSolutionToFile(i, "ucs", ucs)
 
     # gbfs.check_timeout(2)
