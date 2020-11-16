@@ -20,6 +20,61 @@ def positionCheck(arr1, arr2):
                 break
     return numOfIncorrect
 
+def boardCheck(x):
+    p1 = x[:4]
+    p2 = x[4:]
+    print(p1, end='\n')
+    print(p2)
+
+
+def newCheck(arr1, arr2):
+    """
+    checks distance between arrays
+    :param arr1: int list - to be checked
+    :param arr2: int list - correct copy
+    :return: int
+    """
+    # print('NEW CHECK')
+    numIncorrect = 0
+    arr1 = [8 if x == 0 else x for x in arr1]
+    arr1Top, arr1Bot = arr1[:4], arr1[4:]
+    # print(arr1Top)
+    # print(arr1Bot)
+
+    # print('--')
+    numIncorrect += checkHelper(arr1Top)
+    # print('--')
+    numIncorrect += checkHelper(arr1Bot, False)
+    arr1 = [0 if x == 8 else x for x in arr1]
+    # print('num incorrect:', numIncorrect)
+    return numIncorrect
+
+
+def checkHelper(arr, isTop=True):
+    numIncorrect = 0
+    for i in range(len(arr)):
+        incCounter = 0
+        # print('val:', arr[i])
+        if isTop:
+            if arr[i] - 4 > 0:
+                incCounter += 1
+                arr[i] -= 4
+                # print('\tshift row: +1')
+        else:
+            if arr[i] - 4 > 0:
+                arr[i] -= 4
+
+            else:
+                incCounter += 1
+                # print('\tshift row: +1')
+        dist = abs(arr[i] - (i+1))
+        dist = 1 if dist == 3 else dist
+        incCounter += dist
+        # print('\tnew val:', arr[i], ' - index:', i+1, ' - distance: +', dist)
+        # print('\tincorrect:+', incCounter)
+        numIncorrect += incCounter
+    return numIncorrect
+
 def hammingDistance(test_puzzle, goal_states):
 
     # print("Hamming Distance :")
