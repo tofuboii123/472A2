@@ -75,6 +75,13 @@ def checkHelper(arr, isTop=True):
         numIncorrect += incCounter
     return numIncorrect
 
+# Naive heuristic returns 0 if last position is 0
+def naive(test_puzzle):
+    if test_puzzle[7] == 0:
+        return 0
+    else:
+        return 1
+
 def hammingDistance(test_puzzle, goal_states):
 
     # print("Hamming Distance :")

@@ -64,6 +64,8 @@ class Graph:
                     hx = oneDimensionDistance(state_copy, self.goal_states)
                 elif mode == 3:
                     hx = newCheck(state_copy, self.goal_states)
+                elif mode == 4:
+                    hx = naive(state_copy)
 
                 h.append(hx)
 
@@ -98,6 +100,8 @@ class Graph:
                     hx = oneDimensionDistance(state_copy, self.goal_states)
                 elif mode == 3:
                     hx = newCheck(state_copy, self.goal_states)
+                elif mode == 4:
+                    hx = naive(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -130,6 +134,8 @@ class Graph:
                     hx = oneDimensionDistance(state_copy, self.goal_states)
                 elif mode == 3:
                     hx = newCheck(state_copy, self.goal_states)
+                elif mode == 4:
+                    hx = naive(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -162,6 +168,8 @@ class Graph:
                     hx = oneDimensionDistance(state_copy, self.goal_states)
                 elif mode == 3:
                     hx = newCheck(state_copy, self.goal_states)
+                elif mode == 4:
+                    hx = naive(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -183,6 +191,10 @@ class Graph:
                 hx = hammingDistance(state_copy, self.goal_states)
             elif(mode == 2):
                 hx = oneDimensionDistance(state_copy, self.goal_states)
+            elif mode == 3:
+                    hx = newCheck(state_copy, self.goal_states)
+            elif mode == 4:
+                    hx = naive(state_copy)
 
             cost = g[0]
             fx = g[0] + hx
