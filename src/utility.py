@@ -29,6 +29,15 @@ def generatePuzzle(num, size):
     return puzzles, solutions
 
 
+def analysis(puzzle_num, file_name, search_algo):
+    return len(search_algo.closed_list), len(search_algo.solution_path), search_algo.return_dict["execution"] if search_algo.return_dict["success"] else None, search_algo.solution_cost
+
+
+def writeToFile(puzzle_num, file_name, search_algo):
+    writeSearchToFile(puzzle_num, file_name, search_algo)
+    writeSolutionToFile(puzzle_num, file_name, search_algo)
+
+
 def writeSearchToFile(puzzle_num, file_name, search_algo):
 
     with open("search/{}_{}_search.txt".format(puzzle_num, file_name), "w") as f:
@@ -59,6 +68,8 @@ def writeSearchToFile(puzzle_num, file_name, search_algo):
         if not search_algo.return_dict["success"]:
             f.write("no solution")
 
+
+
 def writeSolutionToFile(puzzle_num, file_name, search_algo):
     with open("solution/{}_{}_solution.txt".format(puzzle_num, file_name), "w") as f:
         if not search_algo.return_dict["success"]:
@@ -73,3 +84,56 @@ def writeSolutionToFile(puzzle_num, file_name, search_algo):
                 f.write("\n")
             
             f.write("{} {}".format(search_algo.solution_cost, search_algo.return_dict["execution"]))
+
+
+
+
+def averageSearchLength(stats):
+    return sum(s[0] for s in stats)/len(stats)
+
+def averageSolutionLength(stats):
+    sum = 0
+    total = 0
+
+    for stat in stats:
+        if not stat[1] == 0:
+            sum = sum + stat[1]
+            total = total + 1
+    
+    return sum/total
+
+def averageNoSolution(stats):
+    total = 0
+
+    for stat in stats:
+        if stat[2] == None:
+            total += 1
+
+    return total, total/len(stats)
+
+def averageExecTime(stats):
+    sum = 0
+    total = 0
+
+    for stat in stats:
+        if not stat[2] == None:
+            sum = sum + stat[2]
+            total = total + 1
+    
+    return sum/total
+
+def averageCost(stats):
+    sum = 0
+    total = 0
+
+    for stat in stats:
+        if not stat[2] == None:
+            sum = sum + stat[3]
+            total = total + 1
+    
+    return sum/total
+
+def averageStats(stats):
+    return averageSearchLength(stats), averageSolutionLength(stats), averageNoSolution(stats), averageExecTime(stats), averageCost(stats)
+
+
