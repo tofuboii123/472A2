@@ -53,7 +53,7 @@ def checkHelper(arr, isTop=True):
         numIncorrect += incCounter
     return numIncorrect
 
-
+# 1 - Hamming Distance calculate tiles out of place
 def hammingDistance(test_puzzle, goal_states):
 
     # print("Hamming Distance :")
@@ -71,7 +71,7 @@ def hammingDistance(test_puzzle, goal_states):
     
     return min(errorPerGoalState)
 
-# Alternate version of Manhattan heuristic as 1D states instead of 2D
+# 2 - Alternate version of Manhattan heuristic as 1D states instead of 2D
 def oneDimensionDistance(test_puzzle, goal_states):
     # print("One Dimension Distance: ")
     #Array to get the number of error per goal state
@@ -88,7 +88,7 @@ def oneDimensionDistance(test_puzzle, goal_states):
     
     return min(errorPerGoalState)
 
-# Heuristic 3 newCheck, checks the misplaced tiles by splitting into 2 rows
+# 3 - newCheck heuristic, checks the misplaced tiles by splitting into 2 rows
 # Considers only movement, left, right, up, down 
 def newCheck(arr1, arr2):
     """
@@ -111,6 +111,13 @@ def newCheck(arr1, arr2):
     arr1 = [0 if x == 8 else x for x in arr1]
     # print('num incorrect:', numIncorrect)
     return numIncorrect
+
+# 4 - Naive heuristic returns 0 if last position is 0
+def naive(test_puzzle):
+    if test_puzzle[7] == 0:
+        return 0
+    else:
+        return 1
         
 
 # Test Section
