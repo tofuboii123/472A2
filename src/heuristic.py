@@ -126,3 +126,17 @@ def orderCheck(test_puzzle):
             numOfIncorrect += 1 
             #print("wrong")
     return numOfIncorrect
+
+# 6 - Row Column Check heuristic, check if the number is in the rows and column
+def rowcolCheck(test_puzzle, goal_states):
+    numIncorrect = 0
+    numCorrect = 0
+
+    for i in range(0,4):
+        # print(i)
+        for j in range(0,4):
+            # print(j)
+            if (goal_states[0][i] == test_puzzle[j]):
+                # print("good")
+                numCorrect += 1
+        numIncorrect += 1
