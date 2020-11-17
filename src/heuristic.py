@@ -76,15 +76,15 @@ def rowcolCheck(test_puzzle, goal_states):
     # Checks for each goal state
     for state in goal_states:
         # Row Check 1
-        for i in range(0,4):
-            for j in range(0,4):
+        for i in range(0, len(goal_states)//2):
+            for j in range(0, len(goal_states)//2):
                 if (state[i] == test_puzzle[j]):
                     numCorrect += 1
             numIncorrect += 1
         
         # Row Check 2
-        for i in range (4, 8):
-            for j in range (4,8):
+        for i in range (len(goal_states)//2, len(goal_states)):
+            for j in range (len(goal_states)//2, len(goal_states)):
                 if(state[i] == test_puzzle[j]):
                     numCorrect += 1
             numIncorrect += 1
@@ -96,14 +96,14 @@ def rowcolCheck(test_puzzle, goal_states):
     for state in goal_states:
         numIncorrect = 0
         # Column check 1
-        for i in range(0, 4):
-            if test_puzzle[i] not in (state[i], state[i + 4]):
+        for i in range(0, len(goal_states)//2):
+            if test_puzzle[i] not in (state[i], state[i + len(goal_states)//2]):
                 numIncorrect += 1
     
         tempVar = 0 
         # Column check 1
-        for i in range(4, 8): 
-            if test_puzzle[i] not in (state[tempVar], state[tempVar + 4]):
+        for i in range(len(goal_states)//2, len(goal_states)): 
+            if test_puzzle[i] not in (state[tempVar], state[tempVar + len(goal_states)//2]):
                 numIncorrect += 1
             tempVar += 1
         errorPerGoalStateCol.append(numIncorrect)
