@@ -156,14 +156,25 @@ def rowcolCheck(test_puzzle, goal_states):
     numIncorrect = numIncorrect - numCorrect
 
     # Column check
-    for i in range(0, 4):
-        if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
-            numIncorrect += 1
+    if goal_states[0] == goal_states[0]:
+        for i in range(0, 4):
+            if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
+                numIncorrect += 1
     
-    tempVar = 0 
-    for i in range(4, 8): 
-        if test_puzzle[i] not in (goal_states[0][tempVar], goal_states[0][tempVar + 4]):
-            numIncorrect += 1
-        tempVar += 1
-
+        tempVar = 0 
+        for i in range(4, 8): 
+            if test_puzzle[i] not in (goal_states[0][tempVar], goal_states[0][tempVar + 4]):
+                numIncorrect += 1
+            tempVar += 1
+    else:
+        for i in range(0, 4):
+            if test_puzzle[i] not in (goal_states[1][i], goal_states[1][i + 4]):
+                numIncorrect += 1
+    
+        tempVar = 0 
+        for i in range(4, 8): 
+            if test_puzzle[i] not in (goal_states[1][tempVar], goal_states[1][tempVar + 4]):
+                numIncorrect += 1
+            tempVar += 1
+    
     return numIncorrect
