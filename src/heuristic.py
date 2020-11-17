@@ -115,11 +115,33 @@ def oneDimensionDistance(test_puzzle, goal_states):
     #     print("Goal State " + str(i) + " : " + str(errorPerGoalState[i]))
     
     return min(errorPerGoalState)
+
+# Order check 
+def orderCheck(test_puzzle):
+    numOfIncorrect = 0
+    for i in range(1,4):
+        if test_puzzle[i] >= test_puzzle [i+1]:
+            numOfIncorrect += 1
+            #print("wrong")
+    for i in range(4,7):
+        if test_puzzle[i] >= test_puzzle[i+1]:
+            numOfIncorrect += 1 
+            #print("wrong")
+    return numOfIncorrect
+
+# # Compare 2 arrays
+# def compareArr(arr1, arr2):
+#     numOfIncorrectPos = 0
+#     for i in range (len(arr1)):
+#         if(arr1[i] != arr2[i]):
+#             numOfIncorrectPos = numOfIncorrectPos + 1 
+#     return numOfIncorrectPos
         
 
 # Test Section
 # goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
-# test_puzzle = [1, 2, 3, 4, 5, 6, 0, 7]  
+# test_puzzle = [1, 3, 2, 4, 5, 7, 0, 6]  
 
 # heuristic.hammingDistance(test_puzzle, goal_states)
 # heuristic.oneDimensionDistance(test_puzzle, goal_states)
+# print(orderCheck(test_puzzle))
