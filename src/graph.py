@@ -68,6 +68,8 @@ class Graph:
                     hx = newCheck(state_copy, self.goal_states)
                 elif mode == 4:
                     hx = naive(state_copy)
+                elif mode == 5:
+                    hx = orderCheck(state_copy)
 
                 h.append(hx)
 
@@ -105,6 +107,8 @@ class Graph:
                     hx = newCheck(state_copy, self.goal_states)
                 elif mode == 4:
                     hx = naive(state_copy)
+                elif mode == 5:
+                    hx = orderCheck(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -140,6 +144,8 @@ class Graph:
                     hx = newCheck(state_copy, self.goal_states)
                 elif mode == 4:
                     hx = naive(state_copy)
+                elif mode == 5:
+                    hx = orderCheck(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -175,6 +181,8 @@ class Graph:
                     hx = newCheck(state_copy, self.goal_states)
                 elif mode == 4:
                     hx = naive(state_copy)
+                elif mode == 5:
+                    hx = orderCheck(state_copy)
 
                 if i < 2:
                     cost = g[0]
@@ -202,6 +210,8 @@ class Graph:
                 hx = newCheck(state_copy, self.goal_states)
             elif mode == 4:
                     hx = naive(state_copy)
+            elif mode == 5:
+                    hx = orderCheck(state_copy)
 
             cost = g[0]
             fx = g[0] + hx

@@ -113,3 +113,30 @@ def naive(test_puzzle):
         return 0
     else:
         return 1
+
+# 5 - Order check heuristic, checks if value is smaller then the next 
+def orderCheck(test_puzzle):
+    numOfIncorrect = 0
+    for i in range(1,4):
+        if test_puzzle[i] >= test_puzzle [i+1]:
+            numOfIncorrect += 1
+            #print("wrong")
+    for i in range(4,7):
+        if test_puzzle[i] >= test_puzzle[i+1]:
+            numOfIncorrect += 1 
+            #print("wrong")
+    return numOfIncorrect
+
+# 6 - Row Column Check heuristic, check if the number is in the rows and column
+def rowcolCheck(test_puzzle, goal_states):
+    numIncorrect = 0
+    numCorrect = 0
+
+    for i in range(0,4):
+        # print(i)
+        for j in range(0,4):
+            # print(j)
+            if (goal_states[0][i] == test_puzzle[j]):
+                # print("good")
+                numCorrect += 1
+        numIncorrect += 1
