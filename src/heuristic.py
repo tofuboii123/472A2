@@ -113,3 +113,16 @@ def naive(test_puzzle):
         return 0
     else:
         return 1
+
+# 5 - Order check heuristic, checks if value is smaller then the next 
+def orderCheck(test_puzzle):
+    numOfIncorrect = 0
+    for i in range(1,4):
+        if test_puzzle[i] >= test_puzzle [i+1]:
+            numOfIncorrect += 1
+            #print("wrong")
+    for i in range(4,7):
+        if test_puzzle[i] >= test_puzzle[i+1]:
+            numOfIncorrect += 1 
+            #print("wrong")
+    return numOfIncorrect
