@@ -132,56 +132,50 @@ def orderCheck(test_puzzle):
 def rowcolCheck(test_puzzle, goal_states):
     numIncorrect = 0
     numCorrect = 0
+    errorPerGoalState = []
+    errorPerGoalStateRow = []
+    errorPerGoalStateCol = []
 
-    # Row Check
-    for i in range(0,4):
-        # print(i)
-        for j in range(0,4):
-            # print(j)
-            if (goal_states[0][i] == test_puzzle[j]):
-                # print("good")
-                numCorrect += 1
-        numIncorrect += 1
-    
-    for i in range (4, 8):
-        # print(i)
-        for j in range (4,8):
-            # print(i)
-            if(goal_states[0][i] == test_puzzle[j]):
-                # print("good")
-                numCorrect += 1
-        numIncorrect += 1
+    for state in goal_states:
+        # Row Check
+        for i in range(0,4):
+            for j in range(0,4):
+                if (state[i] == test_puzzle[j]):
+                    numCorrect += 1
+            numIncorrect += 1
 
-    numIncorrect = numIncorrect - numCorrect
+        for i in range (4, 8):
+            for j in range (4,8):
+                if(state[i] == test_puzzle[j]):
+                    numCorrect += 1
+            numIncorrect += 1
+
+        numIncorrect = abs(numIncorrect - numCorrect)
+        errorPerGoalStateRow.append(abs(numIncorrect))
 
     # Column check
-    if goal_states[0] == goal_states[0]:
+    for state in goal_states:
+        numIncorrect = 0
         for i in range(0, 4):
-            if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
+            if test_puzzle[i] not in (state[i], state[i + 4]):
                 numIncorrect += 1
     
         tempVar = 0 
         for i in range(4, 8): 
-            if test_puzzle[i] not in (goal_states[0][tempVar], goal_states[0][tempVar + 4]):
+            if test_puzzle[i] not in (state[tempVar], state[tempVar + 4]):
                 numIncorrect += 1
             tempVar += 1
-    else:
-        for i in range(0, 4):
-            if test_puzzle[i] not in (goal_states[1][i], goal_states[1][i + 4]):
-                numIncorrect += 1
+        errorPerGoalStateCol.append(numIncorrect)
     
-        tempVar = 0 
-        for i in range(4, 8): 
-            if test_puzzle[i] not in (goal_states[1][tempVar], goal_states[1][tempVar + 4]):
-                numIncorrect += 1
-            tempVar += 1
-    
-    return numIncorrect
+    for i in range(len(errorPerGoalStateCol)):
+        errorPerGoalState.append(errorPerGoalStateRow[i] + errorPerGoalStateCol[i])
+
+    return min(errorPerGoalState)
         
 
 # Test Section
-# goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
-# test_puzzle = [1, 3, 2, 4, 5, 7, 0, 6]  
+goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
+test_puzzle = [1, 2, 3, 4, 5, 0, 6, 7]  
 
 # heuristic.hammingDistance(test_puzzle, goal_states)
 # heuristic.oneDimensionDistance(test_puzzle, goal_states)
