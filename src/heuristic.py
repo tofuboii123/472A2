@@ -159,4 +159,9 @@ def rowcolCheck(test_puzzle, goal_states):
     for i in range(0, 4):
         if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
             numIncorrect += 1
+    
+    for i in range(0, 4):
+        if test_puzzle[i] not in (goal_states[1][i], goal_states[1][i + 4]):
+            numIncorrect += 1
+
     return numIncorrect
