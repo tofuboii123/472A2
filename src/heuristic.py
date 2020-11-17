@@ -117,14 +117,16 @@ def naive(test_puzzle):
 # 5 - Order check heuristic, checks if value is smaller then the next 
 def orderCheck(test_puzzle):
     numOfIncorrect = 0
-    for i in range(1,4):
+
+    for i in range(0, len(test_puzzle)//2):
         if test_puzzle[i] >= test_puzzle [i+1]:
             numOfIncorrect += 1
             #print("wrong")
-    for i in range(4,7):
+    for i in range(len(test_puzzle)//2, len(test_puzzle) - 1):
         if test_puzzle[i] >= test_puzzle[i+1]:
             numOfIncorrect += 1 
             #print("wrong")
+
     return numOfIncorrect
 
 # 6 - Row Column Check heuristic, check if the number is in the rows and column

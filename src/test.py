@@ -15,7 +15,6 @@ def stop_search():
         p.join()
 
 
-p = Puzzle("puzzles/test.txt", (2, 4))
 
 # goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
 
@@ -49,42 +48,56 @@ astar_h2_name = "astar-h2"
 gbfs_h1_name = "gbfs-h1"
 gbfs_h2_name = "gbfs-h2"
 
+p = Puzzle("puzzles/test.txt", (2, 4))
 
-for i, puzzle in enumerate(puzzles):
-    g = Graph(goal_states, len(puzzle), puzzle)
 
-    aStar = a_star(g)
-    aStar2 = a_star(g)
-    gbfs = GBFS(g)
-    gbfs2 = GBFS(g)
-    ucs = UCS(g)
+g = Graph(goal_states, len(test_puzzle4), p.puzzles[0])
 
-    gbfs.check_timeout(1)
-    gbfs2.check_timeout(2)
-    aStar.check_timeout(1)
-    aStar2.check_timeout(2)
-    ucs.check_timeout()
+aStar = a_star(g)
+aStar.check_timeout(5)
 
-    writeToFile(i, gbfs_h1_name, gbfs)
-    writeToFile(i, astar_h1_name, aStar)
-    writeToFile(i, ucs_name, ucs)
-    writeToFile(i, gbfs_h2_name, gbfs2)
-    writeToFile(i, astar_h2_name, aStar2)
+gbfs = GBFS(g)
+gbfs.check_timeout(5)
 
-    ucs_stats.append((analysis(i, ucs_name, ucs)))
-    gbfs_h1_stats.append((analysis(i, gbfs_h1_name, gbfs)))
-    gbfs_h2_stats.append((analysis(i, gbfs_h2_name, gbfs2)))
-    astar_h1_stats.append((analysis(i, astar_h1_name, aStar)))
-    astar_h2_stats.append((analysis(i, astar_h2_name, aStar2)))
+ucs = UCS(g)
+ucs.check_timeout()
 
-print("ucs stats:" , ucs_stats)
-print("average ucs: ", averageStats(ucs_stats))
-print("gbfs1 stats: ", gbfs_h1_stats)
-print("average gbfs1: ", averageStats(gbfs_h1_stats))
-print("gbfs2 stats: ", gbfs_h2_stats)
-print("average gbfs2: ", averageStats(gbfs_h2_stats))
-print("astar1 stats: ", astar_h1_stats)
-print("average astar1: ", averageStats(astar_h1_stats))
-print("astar2 stats: ", astar_h2_stats)
-print("average astar2: ", averageStats(astar_h2_stats))
+
+# for i, puzzle in enumerate(puzzles):
+#     g = Graph(goal_states, len(puzzle), puzzle)
+
+#     aStar = a_star(g)
+#     aStar2 = a_star(g)
+#     gbfs = GBFS(g)
+#     gbfs2 = GBFS(g)
+#     ucs = UCS(g)
+
+#     gbfs.check_timeout(1)
+#     gbfs2.check_timeout(2)
+#     aStar.check_timeout(1)
+#     aStar2.check_timeout(2)
+#     ucs.check_timeout()
+
+#     writeToFile(i, gbfs_h1_name, gbfs)
+#     writeToFile(i, astar_h1_name, aStar)
+#     writeToFile(i, ucs_name, ucs)
+#     writeToFile(i, gbfs_h2_name, gbfs2)
+#     writeToFile(i, astar_h2_name, aStar2)
+
+#     ucs_stats.append((analysis(i, ucs_name, ucs)))
+#     gbfs_h1_stats.append((analysis(i, gbfs_h1_name, gbfs)))
+#     gbfs_h2_stats.append((analysis(i, gbfs_h2_name, gbfs2)))
+#     astar_h1_stats.append((analysis(i, astar_h1_name, aStar)))
+#     astar_h2_stats.append((analysis(i, astar_h2_name, aStar2)))
+
+# print("ucs stats:" , ucs_stats)
+# print("average ucs: ", averageStats(ucs_stats))
+# print("gbfs1 stats: ", gbfs_h1_stats)
+# print("average gbfs1: ", averageStats(gbfs_h1_stats))
+# print("gbfs2 stats: ", gbfs_h2_stats)
+# print("average gbfs2: ", averageStats(gbfs_h2_stats))
+# print("astar1 stats: ", astar_h1_stats)
+# print("average astar1: ", averageStats(astar_h1_stats))
+# print("astar2 stats: ", astar_h2_stats)
+# print("average astar2: ", averageStats(astar_h2_stats))
 
