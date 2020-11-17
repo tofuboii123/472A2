@@ -60,14 +60,14 @@ class Graph:
                 # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = naive(state_copy)
-                elif(mode == 1):
-                    hx = hammingDistance(state_copy, self.goal_states)
-                elif(mode == 2):
-                    hx = oneDimensionDistance(state_copy, self.goal_states)
-                elif mode == 3:
+                elif mode == 1:
                     hx = orderCheck(state_copy)
-                elif mode == 4:
+                elif mode == 2:
                     hx = rowcolCheck(state_copy, self.goal_states)
+                elif(mode == 3):
+                    hx = hammingDistance(state_copy, self.goal_states)
+                elif(mode == 4):
+                    hx = oneDimensionDistance(state_copy, self.goal_states)
                 else:
                     hx = 0
 
@@ -99,14 +99,14 @@ class Graph:
                 # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = naive(state_copy)
-                elif(mode == 1):
-                    hx = hammingDistance(state_copy, self.goal_states)
-                elif(mode == 2):
-                    hx = oneDimensionDistance(state_copy, self.goal_states)
-                elif mode == 3:
+                elif mode == 1:
                     hx = orderCheck(state_copy)
-                elif mode == 4:
+                elif mode == 2:
                     hx = rowcolCheck(state_copy, self.goal_states)
+                elif(mode == 3):
+                    hx = hammingDistance(state_copy, self.goal_states)
+                elif(mode == 4):
+                    hx = oneDimensionDistance(state_copy, self.goal_states)
                 else:
                     hx = 0
 
@@ -136,14 +136,14 @@ class Graph:
                 # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = naive(state_copy)
-                elif(mode == 1):
-                    hx = hammingDistance(state_copy, self.goal_states)
-                elif(mode == 2):
-                    hx = oneDimensionDistance(state_copy, self.goal_states)
-                elif mode == 3:
+                elif mode == 1:
                     hx = orderCheck(state_copy)
-                elif mode == 4:
+                elif mode == 2:
                     hx = rowcolCheck(state_copy, self.goal_states)
+                elif(mode == 3):
+                    hx = hammingDistance(state_copy, self.goal_states)
+                elif(mode == 4):
+                    hx = oneDimensionDistance(state_copy, self.goal_states)
                 else:
                     hx = 0
 
@@ -173,14 +173,14 @@ class Graph:
                 # Different heuristic values depending on mode
                 if(mode == 0):
                     hx = naive(state_copy)
-                elif(mode == 1):
-                    hx = hammingDistance(state_copy, self.goal_states)
-                elif(mode == 2):
-                    hx = oneDimensionDistance(state_copy, self.goal_states)
-                elif mode == 3:
+                elif mode == 1:
                     hx = orderCheck(state_copy)
-                elif mode == 4:
+                elif mode == 2:
                     hx = rowcolCheck(state_copy, self.goal_states)
+                elif(mode == 3):
+                    hx = hammingDistance(state_copy, self.goal_states)
+                elif(mode == 4):
+                    hx = oneDimensionDistance(state_copy, self.goal_states)
                 else:
                     hx = 0
 
@@ -202,14 +202,14 @@ class Graph:
             # Different heuristic values depending on mode
             if(mode == 0):
                 hx = naive(state_copy)
-            elif(mode == 1):
-                hx = hammingDistance(state_copy, self.goal_states)
-            elif(mode == 2):
-                hx = oneDimensionDistance(state_copy, self.goal_states)
-            elif mode == 3:
+            elif mode == 1:
                 hx = orderCheck(state_copy)
-            elif mode == 4:
+            elif mode == 2:
                 hx = rowcolCheck(state_copy, self.goal_states)
+            elif(mode == 3):
+                hx = hammingDistance(state_copy, self.goal_states)
+            elif(mode == 4):
+                hx = oneDimensionDistance(state_copy, self.goal_states)
             else:
                 hx = 0
 

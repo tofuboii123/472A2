@@ -24,32 +24,7 @@ def naive(test_puzzle):
     else:
         return 1
 
-# 1 - Hamming Distance calculate tiles out of place
-def hammingDistance(test_puzzle, goal_states):
-    # Array to get the number of error per goal state
-    errorPerGoalState = []
-
-    # Checking the position of each arrays and append the number of error
-    for state in goal_states: 
-        error = compareArr(test_puzzle, state)
-        errorPerGoalState.append(error)   
-    
-    return min(errorPerGoalState)
-
-# 2 - Alternate version of Manhattan heuristic as 1D states instead of 2D
-def oneDimensionDistance(test_puzzle, goal_states):
-
-    #Array to get the number of error per goal state
-    errorPerGoalState = []
-
-    #Checking the position of each arrays and append the number of error
-    for state in goal_states: 
-        error = positionCheck(state, test_puzzle)
-        errorPerGoalState.append(error)   
-
-    return min(errorPerGoalState)
-
-# 3 - Order check heuristic, checks if value is smaller then the next 
+# 1 - Order check heuristic, checks if value is smaller then the next 
 def orderCheck(test_puzzle):
     numOfIncorrect = 0
 
@@ -65,7 +40,7 @@ def orderCheck(test_puzzle):
 
     return numOfIncorrect
 
-# 4 - Row Column Check heuristic, check if the number is in the rows and column
+# 2 - Row Column Check heuristic, check if the number is in the rows and column
 def rowcolCheck(test_puzzle, goal_states):
     numIncorrect = 0
     numCorrect = 0
@@ -111,5 +86,30 @@ def rowcolCheck(test_puzzle, goal_states):
     # Add both values of rows and columns found
     for i in range(len(errorPerGoalStateCol)):
         errorPerGoalState.append(errorPerGoalStateRow[i] + errorPerGoalStateCol[i])
+
+    return min(errorPerGoalState)
+
+# 3 - Hamming Distance calculate tiles out of place
+def hammingDistance(test_puzzle, goal_states):
+    # Array to get the number of error per goal state
+    errorPerGoalState = []
+
+    # Checking the position of each arrays and append the number of error
+    for state in goal_states: 
+        error = compareArr(test_puzzle, state)
+        errorPerGoalState.append(error)   
+    
+    return min(errorPerGoalState)
+
+# 4 - Alternate version of Manhattan heuristic as 1D states instead of 2D
+def oneDimensionDistance(test_puzzle, goal_states):
+
+    #Array to get the number of error per goal state
+    errorPerGoalState = []
+
+    #Checking the position of each arrays and append the number of error
+    for state in goal_states: 
+        error = positionCheck(state, test_puzzle)
+        errorPerGoalState.append(error)   
 
     return min(errorPerGoalState)
