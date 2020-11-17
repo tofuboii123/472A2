@@ -121,11 +121,10 @@ def orderCheck(test_puzzle):
     for i in range(0, len(test_puzzle)//2):
         if test_puzzle[i] >= test_puzzle [i+1]:
             numOfIncorrect += 1
-            #print("wrong")
+            
     for i in range(len(test_puzzle)//2, len(test_puzzle) - 1):
         if test_puzzle[i] >= test_puzzle[i+1]:
             numOfIncorrect += 1 
-            #print("wrong")
 
     return numOfIncorrect
 
@@ -136,20 +135,14 @@ def rowcolCheck(test_puzzle, goal_states):
 
     # Row Check
     for i in range(0,4):
-        # print(i)
         for j in range(0,4):
-            # print(j)
             if (goal_states[0][i] == test_puzzle[j]):
-                # print("good")
                 numCorrect += 1
         numIncorrect += 1
     
     for i in range (4, 8):
-        # print(i)
         for j in range (4,8):
-            # print(i)
             if(goal_states[0][i] == test_puzzle[j]):
-                # print("good")
                 numCorrect += 1
         numIncorrect += 1
 
