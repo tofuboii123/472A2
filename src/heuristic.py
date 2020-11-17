@@ -155,24 +155,35 @@ def rowcolCheck(test_puzzle, goal_states):
     numIncorrect = numIncorrect - numCorrect
 
     # Column check
-    for i in range(0, 4):
-        if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
-            numIncorrect += 1
+    if goal_states[0] == goal_states[0]:
+        for i in range(0, 4):
+            if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
+                numIncorrect += 1
     
-    tempVar = 0 
-    for i in range(4, 8): 
-        if test_puzzle[i] not in (goal_states[0][tempVar], goal_states[0][tempVar + 4]):
-            numIncorrect += 1
-        tempVar += 1
-
+        tempVar = 0 
+        for i in range(4, 8): 
+            if test_puzzle[i] not in (goal_states[0][tempVar], goal_states[0][tempVar + 4]):
+                numIncorrect += 1
+            tempVar += 1
+    else:
+        for i in range(0, 4):
+            if test_puzzle[i] not in (goal_states[1][i], goal_states[1][i + 4]):
+                numIncorrect += 1
+    
+        tempVar = 0 
+        for i in range(4, 8): 
+            if test_puzzle[i] not in (goal_states[1][tempVar], goal_states[1][tempVar + 4]):
+                numIncorrect += 1
+            tempVar += 1
+    
     return numIncorrect
         
 
 # Test Section
-goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
-test_puzzle = [1, 3, 2, 4, 5, 7, 0, 6]  
+# goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
+# test_puzzle = [1, 3, 2, 4, 5, 7, 0, 6]  
 
 # heuristic.hammingDistance(test_puzzle, goal_states)
 # heuristic.oneDimensionDistance(test_puzzle, goal_states)
 # print(orderCheck(test_puzzle))
-print(rowcolCheck(test_puzzle, goal_states))
+# print(rowcolCheck(test_puzzle, goal_states))
