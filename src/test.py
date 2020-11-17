@@ -23,7 +23,7 @@ g1 = Graph(goal_states, test_puzzle7)
 
 aStar = a_star(g1)
 # aStar.search(1)
-aStar.search(5)
+aStar.search(6)
 
 # g2 = Graph(goal_states, test_puzzle2)
 # ucs2 = UCS(g2)

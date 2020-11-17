@@ -1,4 +1,3 @@
-import numpy as np
 
 
 # Compare 2 arrays
@@ -119,7 +118,7 @@ def oneDimensionDistance(test_puzzle, goal_states):
 # Order check 
 def orderCheck(test_puzzle):
     numOfIncorrect = 0
-    for i in range(1,4):
+    for i in range(0,4):
         if test_puzzle[i] >= test_puzzle [i+1]:
             numOfIncorrect += 1
             #print("wrong")
@@ -134,6 +133,7 @@ def rowcolCheck(test_puzzle, goal_states):
     numIncorrect = 0
     numCorrect = 0
 
+    # Row Check
     for i in range(0,4):
         # print(i)
         for j in range(0,4):
@@ -143,8 +143,6 @@ def rowcolCheck(test_puzzle, goal_states):
                 numCorrect += 1
         numIncorrect += 1
     
-
-
     for i in range (4, 8):
         # print(i)
         for j in range (4,8):
@@ -155,23 +153,19 @@ def rowcolCheck(test_puzzle, goal_states):
         numIncorrect += 1
 
     numIncorrect = numIncorrect - numCorrect
+
+    # Column check     
+    for i in range(0, 4):
+        if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
+            numIncorrect += 1
     return numIncorrect
         
 
-# # Compare 2 arrays
-# def compareArr(arr1, arr2):
-#     numOfIncorrectPos = 0
-#     for i in range (len(arr1)):
-#         if(arr1[i] != arr2[i]):
-#             numOfIncorrectPos = numOfIncorrectPos + 1 
-#     return numOfIncorrectPos
-        
-
 # Test Section
-goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
-test_puzzle = [1, 3, 2, 4, 5, 7, 0, 6]  
+# goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
+# test_puzzle = [1, 3, 2, 4, 5, 7, 0, 6]  
 
 # heuristic.hammingDistance(test_puzzle, goal_states)
 # heuristic.oneDimensionDistance(test_puzzle, goal_states)
 # print(orderCheck(test_puzzle))
-print(rowcolCheck(test_puzzle, goal_states))
+# print(rowcolCheck(test_puzzle, goal_states))

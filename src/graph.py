@@ -68,6 +68,8 @@ class Graph:
                     hx = naive(state_copy)
                 elif mode == 5:
                     hx = orderCheck(state_copy)
+                elif mode == 6:
+                    hx = rowcolCheck(state_copy, self.goal_states)
 
                 h.append(hx)
 
@@ -106,6 +108,8 @@ class Graph:
                     hx = naive(state_copy)
                 elif mode == 5:
                     hx = orderCheck(state_copy)
+                elif mode == 6:
+                    hx = rowcolCheck(state_copy, self.goal_states)
 
                 if i < 2:
                     cost = g[0]
@@ -142,6 +146,8 @@ class Graph:
                     hx = naive(state_copy)
                 elif mode == 5:
                     hx = orderCheck(state_copy)
+                elif mode == 6:
+                    hx = rowcolCheck(state_copy, self.goal_states)
 
                 if i < 2:
                     cost = g[0]
@@ -178,6 +184,8 @@ class Graph:
                     hx = naive(state_copy)
                 elif mode == 5:
                     hx = orderCheck(state_copy)
+                elif mode == 6:
+                    hx = rowcolCheck(state_copy, self.goal_states)
 
                 if i < 2:
                     cost = g[0]
@@ -205,6 +213,8 @@ class Graph:
                     hx = naive(state_copy)
             elif mode == 5:
                     hx = orderCheck(state_copy)
+            elif mode == 6:
+                    hx = rowcolCheck(state_copy, self.goal_states)
 
             cost = g[0]
             fx = g[0] + hx
