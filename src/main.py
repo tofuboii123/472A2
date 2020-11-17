@@ -58,6 +58,7 @@ for i, puzzle in enumerate(puzzles):
 print("ucs values:" , ucs_values)
 ucs_stats["avg"] = averageStats(ucs_values)
 ucs_stats["total"] = totalStats(ucs_values)
+writeStatsToCSV(ucs_name, ucs_stats["avg"], ucs_stats["total"])
 
 print("average ucs: ", ucs_stats["avg"])
 print("total ucs: ", ucs_stats["total"])
@@ -65,6 +66,8 @@ print("total ucs: ", ucs_stats["total"])
 print("gbfs1 values: ", gbfs_h1_values)
 gbfs_h1_stats["avg"] = averageStats(gbfs_h1_values)
 gbfs_h1_stats["total"] = totalStats(gbfs_h1_values)
+writeStatsToCSV(gbfs_h1_name, gbfs_h1_stats["avg"], gbfs_h1_stats["total"])
+
 
 print("average gbfs1: ", gbfs_h1_stats["avg"])
 print("total gbfs1: ", gbfs_h1_stats["total"])
@@ -77,6 +80,8 @@ print("total gbfs1: ", gbfs_h1_stats["total"])
 print("astar1 values: ", astar_h1_values)
 astar_h1_stats["avg"] = averageStats(astar_h1_values)
 astar_h1_stats["total"] = totalStats(astar_h1_values)
+writeStatsToCSV(astar_h1_name, astar_h1_stats["avg"], astar_h1_stats["total"])
+
 
 print("average astar1: ", astar_h1_stats["avg"])
 print("total astar1: ", astar_h1_stats["total"])

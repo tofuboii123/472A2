@@ -1,4 +1,6 @@
 import random
+import csv
+
 
 '''
 Generate a random puzzle and its solution
@@ -37,14 +39,9 @@ def writePuzzlesToFile(puzzles):
             f.write("\n")
 
 
-
-
-
 def writeToFile(puzzle_num, file_name, search_algo):
     writeSearchToFile(puzzle_num, file_name, search_algo)
     writeSolutionToFile(puzzle_num, file_name, search_algo)
-
-
 
 
 def writeSearchToFile(puzzle_num, file_name, search_algo):
@@ -78,7 +75,6 @@ def writeSearchToFile(puzzle_num, file_name, search_algo):
             f.write("no solution")
 
 
-
 def writeSolutionToFile(puzzle_num, file_name, search_algo):
     with open("solution/{}_{}_solution.txt".format(puzzle_num, file_name), "w") as f:
         if not search_algo.return_dict["success"]:
@@ -93,6 +89,20 @@ def writeSolutionToFile(puzzle_num, file_name, search_algo):
                 f.write("\n")
             
             f.write("{} {}".format(search_algo.solution_cost, search_algo.return_dict["execution"]))
+
+
+
+def writeStatsToCSV(file_name, avg_stats, total_stats):
+    with open("stats/{}_avg_stats.csv".format(file_name), "w") as f:
+        csv_out = csv.writer(f)
+        csv_out.writerow(["avg_search_length", "avg_solution_length", "avg_no_solutions", "avg_exec_time", "avg_cost"])
+        csv_out.writerow(avg_stats)
+
+    with open("stats/{}_total_stats.csv".format(file_name), "w") as f:
+        csv_out = csv.writer(f)
+        csv_out.writerow(["total_search_length", "total_solution_length", "total_no_solutions", "total_exec_time", "total_cost"])
+        csv_out.writerow(avg_stats)
+
 
 
 def stats(puzzle_num, file_name, search_algo):
@@ -198,5 +208,7 @@ def totalCost(stats):
 
 def totalStats(stats):
     return totalSearchLength(stats), totalSolutionLength(stats), totalNoSolution(stats), totalExecTime(stats), totalCost(stats)
+
+
 
 
