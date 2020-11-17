@@ -71,7 +71,7 @@ class a_star:
                 print("The A* search took ", execution_time, " seconds.")
                 print("Done!\n")
                 self.return_dict["success"] = True
-                self.return_dict["search"] = execution_time
+                self.return_dict["execution"] = execution_time
                 return 
             
             # Get children of current state
