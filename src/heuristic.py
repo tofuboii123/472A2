@@ -6,7 +6,7 @@ def compareArr(arr1, arr2):
             numOfIncorrectPos = numOfIncorrectPos + 1 
     return numOfIncorrectPos
 
-# Compare distance of position using OneDimensionDistance
+# Compare distance of position in 1D for OneDimensionDistance
 def positionCheck(arr1, arr2):
     numOfIncorrect = 0
     # 
@@ -17,52 +17,22 @@ def positionCheck(arr1, arr2):
                 break
     return numOfIncorrect
 
-# boardCheck for new check
-def boardCheck(x):
-    p1 = x[:4]
-    p2 = x[4:]
-    print(p1, end='\n')
-    print(p2)
-
-# Helper method to help check for misplaced tiles
-def checkHelper(arr, isTop=True):
-    numIncorrect = 0
-    for i in range(len(arr)):
-        incCounter = 0
-        # print('val:', arr[i])
-        if isTop:
-            if arr[i] - 4 > 0:
-                incCounter += 1
-                arr[i] -= 4
-                # print('\tshift row: +1')
-        else:
-            if arr[i] - 4 > 0:
-                arr[i] -= 4
-
-            else:
-                incCounter += 1
-                # print('\tshift row: +1')
-        dist = abs(arr[i] - (i+1))
-        dist = 1 if dist == 3 else dist
-        incCounter += dist
-        # print('\tnew val:', arr[i], ' - index:', i+1, ' - distance: +', dist)
-        # print('\tincorrect:+', incCounter)
-        numIncorrect += incCounter
-    return numIncorrect
+# 0 - Naive heuristic returns 0 if last position is 0
+def naive(test_puzzle):
+    if test_puzzle[7] == 0:
+        return 0
+    else:
+        return 1
 
 # 1 - Hamming Distance calculate tiles out of place
 def hammingDistance(test_puzzle, goal_states):
-    #Array to get the number of error per goal state
+    # Array to get the number of error per goal state
     errorPerGoalState = []
 
-    #Checking the position of each arrays and append the number of error
+    # Checking the position of each arrays and append the number of error
     for state in goal_states: 
         error = compareArr(test_puzzle, state)
         errorPerGoalState.append(error)   
-
-    # #Print out the Goal state with the total error of it 
-    # for i in range (len(errorPerGoalState)):
-    #     print("Goal State " + str(i) + " : " + str(errorPerGoalState[i]))
     
     return min(errorPerGoalState)
 
@@ -77,78 +47,47 @@ def oneDimensionDistance(test_puzzle, goal_states):
         error = positionCheck(state, test_puzzle)
         errorPerGoalState.append(error)   
 
-    # #Print out the Goal state with the total error of it 
-    # for i in range (len(errorPerGoalState)):
-    #     print("Goal State " + str(i) + " : " + str(errorPerGoalState[i]))
-    
     return min(errorPerGoalState)
 
-# 3 - newCheck heuristic, checks the misplaced tiles by splitting into 2 rows
-# Considers only movement, left, right, up, down 
-def newCheck(arr1, arr2):
-    """
-    checks distance between arrays
-    :param arr1: int list - to be checked
-    :param arr2: int list - correct copy
-    :return: int
-    """
-    # print('NEW CHECK')
-    numIncorrect = 0
-    arr1 = [8 if x == 0 else x for x in arr1]
-    arr1Top, arr1Bot = arr1[:4], arr1[4:]
-    # print(arr1Top)
-    # print(arr1Bot)
-
-    # print('--')
-    numIncorrect += checkHelper(arr1Top)
-    # print('--')
-    numIncorrect += checkHelper(arr1Bot, False)
-    arr1 = [0 if x == 8 else x for x in arr1]
-    # print('num incorrect:', numIncorrect)
-    return numIncorrect
-
-# 4 - Naive heuristic returns 0 if last position is 0
-def naive(test_puzzle):
-    if test_puzzle[7] == 0:
-        return 0
-    else:
-        return 1
-
-# 5 - Order check heuristic, checks if value is smaller then the next 
+# 3 - Order check heuristic, checks if value is smaller then the next 
 def orderCheck(test_puzzle):
     numOfIncorrect = 0
 
+    # First row check
     for i in range(0, len(test_puzzle)//2):
         if test_puzzle[i] >= test_puzzle [i+1]:
             numOfIncorrect += 1
-            
+
+    # Second row check
     for i in range(len(test_puzzle)//2, len(test_puzzle) - 1):
         if test_puzzle[i] >= test_puzzle[i+1]:
             numOfIncorrect += 1 
 
     return numOfIncorrect
 
-# 6 - Row Column Check heuristic, check if the number is in the rows and column
+# 4 - Row Column Check heuristic, check if the number is in the rows and column
 def rowcolCheck(test_puzzle, goal_states):
     numIncorrect = 0
     numCorrect = 0
 
-    # Row Check
+    # Row Check 1
     for i in range(0,4):
         for j in range(0,4):
             if (goal_states[0][i] == test_puzzle[j]):
                 numCorrect += 1
         numIncorrect += 1
     
+    # Row Check 2
     for i in range (4, 8):
         for j in range (4,8):
             if(goal_states[0][i] == test_puzzle[j]):
                 numCorrect += 1
         numIncorrect += 1
 
+    # numIncorrect will be 0 if its in side the rows
     numIncorrect = numIncorrect - numCorrect
 
-    # Column check
+    # Column check if goal is the first one
     if goal_states[0] == goal_states[0]:
         for i in range(0, 4):
             if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
@@ -160,6 +99,7 @@ def rowcolCheck(test_puzzle, goal_states):
                 numIncorrect += 1
             tempVar += 1
     else:
+        # Culumn check if goal is the second one
         for i in range(0, 4):
             if test_puzzle[i] not in (goal_states[1][i], goal_states[1][i + 4]):
                 numIncorrect += 1
@@ -170,4 +110,5 @@ def rowcolCheck(test_puzzle, goal_states):
                 numIncorrect += 1
             tempVar += 1
     
+    # Return numIncorrect will be 0 if the columns has the number 
     return numIncorrect
