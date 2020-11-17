@@ -129,6 +129,35 @@ def orderCheck(test_puzzle):
             #print("wrong")
     return numOfIncorrect
 
+# Row Column Check
+def rowcolCheck(test_puzzle, goal_states):
+    numIncorrect = 0
+    numCorrect = 0
+
+    for i in range(0,4):
+        # print(i)
+        for j in range(0,4):
+            # print(j)
+            if (goal_states[0][i] == test_puzzle[j]):
+                # print("good")
+                numCorrect += 1
+        numIncorrect += 1
+    
+
+
+    for i in range (4, 8):
+        # print(i)
+        for j in range (4,8):
+            # print(i)
+            if(goal_states[0][i] == test_puzzle[j]):
+                # print("good")
+                numCorrect += 1
+        numIncorrect += 1
+
+    numIncorrect = numIncorrect - numCorrect
+    return numIncorrect
+        
+
 # # Compare 2 arrays
 # def compareArr(arr1, arr2):
 #     numOfIncorrectPos = 0
@@ -139,9 +168,10 @@ def orderCheck(test_puzzle):
         
 
 # Test Section
-# goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
-# test_puzzle = [1, 3, 2, 4, 5, 7, 0, 6]  
+goal_states = [[1, 2, 3, 4, 5, 6, 7, 0], [1, 3, 5, 7, 2, 4, 6, 0]]
+test_puzzle = [1, 3, 2, 4, 5, 7, 0, 6]  
 
 # heuristic.hammingDistance(test_puzzle, goal_states)
 # heuristic.oneDimensionDistance(test_puzzle, goal_states)
 # print(orderCheck(test_puzzle))
+print(rowcolCheck(test_puzzle, goal_states))
