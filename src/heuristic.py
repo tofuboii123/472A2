@@ -69,46 +69,47 @@ def orderCheck(test_puzzle):
 def rowcolCheck(test_puzzle, goal_states):
     numIncorrect = 0
     numCorrect = 0
+    errorPerGoalState = []
+    errorPerGoalStateRow = []
+    errorPerGoalStateCol = []
 
-    # Row Check 1
-    for i in range(0,4):
-        for j in range(0,4):
-            if (goal_states[0][i] == test_puzzle[j]):
-                numCorrect += 1
-        numIncorrect += 1
-    
-    # Row Check 2
-    for i in range (4, 8):
-        for j in range (4,8):
-            if(goal_states[0][i] == test_puzzle[j]):
-                numCorrect += 1
-        numIncorrect += 1
+    # Checks for each goal state
+    for state in goal_states:
+        # Row Check 1
+        for i in range(0,4):
+            for j in range(0,4):
+                if (state[i] == test_puzzle[j]):
+                    numCorrect += 1
+            numIncorrect += 1
+        
+        # Row Check 2
+        for i in range (4, 8):
+            for j in range (4,8):
+                if(state[i] == test_puzzle[j]):
+                    numCorrect += 1
+            numIncorrect += 1
 
-    # numIncorrect will be 0 if its in side the rows
-    numIncorrect = numIncorrect - numCorrect
+        numIncorrect = abs(numIncorrect - numCorrect)
+        errorPerGoalStateRow.append(abs(numIncorrect))
 
-    # Column check if goal is the first one
-    if goal_states[0] == goal_states[0]:
+    # Check for each goal state
+    for state in goal_states:
+        numIncorrect = 0
+        # Column check 1
         for i in range(0, 4):
-            if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
+            if test_puzzle[i] not in (state[i], state[i + 4]):
                 numIncorrect += 1
     
         tempVar = 0 
+        # Column check 1
         for i in range(4, 8): 
-            if test_puzzle[i] not in (goal_states[0][tempVar], goal_states[0][tempVar + 4]):
+            if test_puzzle[i] not in (state[tempVar], state[tempVar + 4]):
                 numIncorrect += 1
             tempVar += 1
-    else:
-        # Culumn check if goal is the second one
-        for i in range(0, 4):
-            if test_puzzle[i] not in (goal_states[1][i], goal_states[1][i + 4]):
-                numIncorrect += 1
+        errorPerGoalStateCol.append(numIncorrect)
     
-        tempVar = 0 
-        for i in range(4, 8): 
-            if test_puzzle[i] not in (goal_states[1][tempVar], goal_states[1][tempVar + 4]):
-                numIncorrect += 1
-            tempVar += 1
-    
-    # Return numIncorrect will be 0 if the columns has the number 
-    return numIncorrect
+    # Add both values of rows and columns found
+    for i in range(len(errorPerGoalStateCol)):
+        errorPerGoalState.append(errorPerGoalStateRow[i] + errorPerGoalStateCol[i])
+
+    return min(errorPerGoalState)
