@@ -34,7 +34,7 @@ class Graph:
     '''
     Get all possible children depending on the position
     '''
-    def getChildren(self, mode=None):
+    def getChildren(self, prev_cost, mode=None):
         self.zero_position = self.getZeroPosition()
 
         # List of tuples (cost, child_state, parent_state)
@@ -75,17 +75,17 @@ class Graph:
 
                 if i < 2:
                     cost = g[0]
-                    fx = cost + hx
+                    fx = prev_cost + cost + hx
                 elif i == 2:
                     cost = g[1]
-                    fx = cost + hx
+                    fx = prev_cost + cost + hx
                 else:
                     cost = g[2]
-                    fx = cost + hx
+                    fx = prev_cost + cost + hx
                 
                 moved_tile = state_copy[position]
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile, prev_cost + cost))
 
         elif self.zero_position == self.size/2:
             new_zero_positions = [self.zero_position + 1,
@@ -112,17 +112,17 @@ class Graph:
 
                 if i < 2:
                     cost = g[0]
-                    fx = g[0] + hx
+                    fx = prev_cost + g[0] + hx
                 elif i == 2:
                     cost = g[1]
-                    fx = g[1] + hx
+                    fx = prev_cost + g[1] + hx
                 else:
                     cost = g[2]
-                    fx = g[2] + hx
+                    fx = prev_cost + g[2] + hx
 
                 moved_tile = state_copy[position]
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile, prev_cost + cost))
 
         elif self.zero_position == self.size/2 - 1:
             new_zero_positions = [self.zero_position - 1,
@@ -149,17 +149,17 @@ class Graph:
 
                 if i < 2:
                     cost = g[0]
-                    fx = g[0] + hx
+                    fx = prev_cost + g[0] + hx
                 elif i == 2:
                     cost = g[1]
-                    fx = g[1] + hx
+                    fx = prev_cost + g[1] + hx
                 else:
                     cost = g[2]
-                    fx = g[2] + hx
+                    fx = prev_cost + g[2] + hx
 
                 moved_tile = state_copy[position]
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile, prev_cost + cost))
 
         elif self.zero_position == self.size - 1:
             new_zero_positions = [self.zero_position - 1,
@@ -186,17 +186,17 @@ class Graph:
 
                 if i < 2:
                     cost = g[0]
-                    fx = g[0] + hx
+                    fx = prev_cost + g[0] + hx
                 elif i == 2:
                     cost = g[1]
-                    fx = g[1] + hx
+                    fx = prev_cost + g[1] + hx
                 else:
                     cost = g[2]
-                    fx = g[2] + hx
+                    fx = prev_cost + g[2] + hx
 
                 moved_tile = state_copy[position]
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile, prev_cost + cost))
         else:
             state_copy = self.current_state.copy()
             # Different heuristic values depending on mode
@@ -214,7 +214,7 @@ class Graph:
                 hx = 0
 
             cost = g[0]
-            fx = g[0] + hx
+            fx = prev_cost + g[0] + hx
 
             # The possible new positions for the 0 tile
             new_zero_positions = [self.zero_position + 1,
@@ -228,6 +228,6 @@ class Graph:
                 moved_tile = state_copy[position]
                 # Swap positions
                 state_copy[position], state_copy[self.zero_position] = state_copy[self.zero_position], state_copy[position]
-                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile))
+                children.append((fx, state_copy, self.current_state, cost, hx, moved_tile, prev_cost + cost))
 
         return children

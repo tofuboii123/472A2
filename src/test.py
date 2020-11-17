@@ -32,11 +32,11 @@ puzzles, goal_states = generatePuzzle(2, 8)
 
 writePuzzlesToFile(puzzles)
 
-ucs_stats = []
-gbfs_h1_stats = []
-gbfs_h2_stats = []
-astar_h1_stats = []
-astar_h2_stats = []
+ucs_values = []
+gbfs_h1_values = []
+gbfs_h2_values = []
+astar_h1_values = []
+astar_h2_values = []
 
 ucs_name = "ucs"
 astar_h1_name = "astar-h1"
@@ -47,53 +47,79 @@ gbfs_h2_name = "gbfs-h2"
 p = Puzzle("puzzles/test.txt", (2, 4))
 
 
-g = Graph(goal_states, len(test_puzzle4), p.puzzles[0])
+# g = Graph(goal_states, len(test_puzzle4), test_puzzle7)
 
-aStar = a_star(g)
-aStar.check_timeout(3)
+# aStar = a_star(g)
+# aStar.check_timeout(1)
 
-gbfs = GBFS(g)
-gbfs.check_timeout(3)
+# writeToFile(0, astar_h1_name, aStar)
 
-ucs = UCS(g)
-ucs.check_timeout()
+# gbfs = GBFS(g)
+# gbfs.check_timeout(1)
+# writeToFile(0, gbfs_h1_name, gbfs)
 
 
-# for i, puzzle in enumerate(puzzles):
-#     g = Graph(goal_states, len(puzzle), puzzle)
+# ucs = UCS(g)
+# ucs.check_timeout()
+# writeToFile(0, ucs_name, ucs)
 
-#     aStar = a_star(g)
-#     aStar2 = a_star(g)
-#     gbfs = GBFS(g)
-#     gbfs2 = GBFS(g)
-#     ucs = UCS(g)
 
-#     gbfs.check_timeout(1)
-#     gbfs2.check_timeout(2)
-#     aStar.check_timeout(1)
-#     aStar2.check_timeout(2)
-#     ucs.check_timeout()
+ucs_stats = {"avg" : [], "total" : []}
+gbfs_h1_stats = {"avg" : [], "total" : []}
+gbfs_h2_stats = {"avg" : [], "total" : []}
+astar_h1_stats = {"avg" : [], "total" : []}
+astar_h2_stats = {"avg" : [], "total": []}
 
-#     writeToFile(i, gbfs_h1_name, gbfs)
-#     writeToFile(i, astar_h1_name, aStar)
-#     writeToFile(i, ucs_name, ucs)
-#     writeToFile(i, gbfs_h2_name, gbfs2)
-#     writeToFile(i, astar_h2_name, aStar2)
+for i, puzzle in enumerate(p.puzzles):
+    g = Graph(goal_states, len(puzzle), puzzle)
 
-#     ucs_stats.append((analysis(i, ucs_name, ucs)))
-#     gbfs_h1_stats.append((analysis(i, gbfs_h1_name, gbfs)))
-#     gbfs_h2_stats.append((analysis(i, gbfs_h2_name, gbfs2)))
-#     astar_h1_stats.append((analysis(i, astar_h1_name, aStar)))
-#     astar_h2_stats.append((analysis(i, astar_h2_name, aStar2)))
+    aStar = a_star(g)
+    aStar2 = a_star(g)
+    gbfs = GBFS(g)
+    gbfs2 = GBFS(g)
+    ucs = UCS(g)
 
-# print("ucs stats:" , ucs_stats)
-# print("average ucs: ", averageStats(ucs_stats))
-# print("gbfs1 stats: ", gbfs_h1_stats)
-# print("average gbfs1: ", averageStats(gbfs_h1_stats))
-# print("gbfs2 stats: ", gbfs_h2_stats)
-# print("average gbfs2: ", averageStats(gbfs_h2_stats))
-# print("astar1 stats: ", astar_h1_stats)
-# print("average astar1: ", averageStats(astar_h1_stats))
-# print("astar2 stats: ", astar_h2_stats)
-# print("average astar2: ", averageStats(astar_h2_stats))
+    gbfs.check_timeout(1)
+    gbfs2.check_timeout(2)
+    aStar.check_timeout(1)
+    aStar2.check_timeout(2)
+    ucs.check_timeout()
 
+    writeToFile(i, gbfs_h1_name, gbfs)
+    writeToFile(i, astar_h1_name, aStar)
+    writeToFile(i, ucs_name, ucs)
+    writeToFile(i, gbfs_h2_name, gbfs2)
+    writeToFile(i, astar_h2_name, aStar2)
+
+    ucs_values.append((stats(i, ucs_name, ucs)))
+    gbfs_h1_values.append((stats(i, gbfs_h1_name, gbfs)))
+    gbfs_h2_values.append((stats(i, gbfs_h2_name, gbfs2)))
+    astar_h1_values.append((stats(i, astar_h1_name, aStar)))
+    astar_h2_values.append((stats(i, astar_h2_name, aStar2)))
+
+print("ucs values:" , ucs_values)
+ucs_stats["avg"] = averageStats(ucs_values)
+ucs_stats["total"] = totalStats(ucs_values)
+writeStatsToCSV(ucs_name, ucs_stats["avg"], ucs_stats["total"])
+
+print("average ucs: ", ucs_stats["avg"])
+print("total ucs: ", ucs_stats["total"])
+
+print("gbfs1 values: ", gbfs_h1_values)
+gbfs_h1_stats["avg"] = averageStats(gbfs_h1_values)
+gbfs_h1_stats["total"] = totalStats(gbfs_h1_values)
+writeStatsToCSV(gbfs_h1_name, gbfs_h1_stats["avg"], gbfs_h1_stats["total"])
+
+
+print("average gbfs1: ", gbfs_h1_stats["avg"])
+print("total gbfs1: ", gbfs_h1_stats["total"])
+
+
+print("astar1 values: ", astar_h1_values)
+astar_h1_stats["avg"] = averageStats(astar_h1_values)
+astar_h1_stats["total"] = totalStats(astar_h1_values)
+writeStatsToCSV(astar_h1_name, astar_h1_stats["avg"], astar_h1_stats["total"])
+
+
+print("average astar1: ", astar_h1_stats["avg"])
+print("total astar1: ", astar_h1_stats["total"])

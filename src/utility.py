@@ -52,15 +52,15 @@ def writeSearchToFile(puzzle_num, file_name, search_algo):
 
             # Different values depending on the algorithm
             if "astar" in file_name:
-                fx = search_algo.closed_f[i]
-                gx = state[3]
+                fx = state[0]
+                gx = state[6]
                 hx = state[4]
             elif "gbfs" in file_name:
                 fx = 0
                 gx = 0
                 hx = state[0]
             else:
-                gx = state[3]
+                gx = state[6]
                 fx = 0
                 hx = 0
 

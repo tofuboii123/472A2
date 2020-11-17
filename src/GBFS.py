@@ -28,8 +28,8 @@ class GBFS:
         print("Searching...")
 
         # Push initial state into PQ
-        self.pq.put((0, self.graph.start_state, None, 0, 0, 0))
-        self.open_list.append((0, self.graph.start_state, None, 0, 0, 0))
+        self.pq.put((0, self.graph.start_state, None, 0, 0, 0, 0))
+        self.open_list.append((0, self.graph.start_state, None, 0, 0, 0, 0))
         self.nodes.append(self.graph.start_state)
 
         # While there are states in the open list, keep searching
@@ -40,13 +40,13 @@ class GBFS:
                 return       
 
             # Remove first element from PQ
-            hx, current_node, parent_node, cost, fx, moved_tile = self.pq.get()
+            hx, current_node, parent_node, cost, fx, moved_tile, prev_cost = self.pq.get()
             self.nodes.remove(current_node)
-            self.open_list.remove((hx, current_node, parent_node, cost, fx, moved_tile))
+            self.open_list.remove((hx, current_node, parent_node, cost, fx, moved_tile, prev_cost))
             self.graph.current_state = current_node
 
             # Visited nodes
-            self.closed_list.append((hx, current_node, parent_node, cost, fx, moved_tile))
+            self.closed_list.append((hx, current_node, parent_node, cost, fx, moved_tile, prev_cost))
 
             # Check if node is goal
             if self.graph.goal():
@@ -65,7 +65,7 @@ class GBFS:
                 return
             
             # Get children of current state
-            children = self.graph.getChildren(mode)
+            children = self.graph.getChildren(prev_cost, mode)
 
             # Only keep the children that aren't in the open or closed list
             for child in children:
@@ -78,8 +78,8 @@ class GBFS:
                     # Child has never been visited so we can add it
                     if not child[1] in self.nodes:
                         self.nodes.append(child[1])
-                        self.pq.put((child[4], child[1], child[2], child[3], 0, child[5]))
-                        self.open_list.append((child[4], child[1], child[2], child[3], 0, child[5]))
+                        self.pq.put((child[4], child[1], child[2], child[3], 0, child[5], child[6]))
+                        self.open_list.append((child[4], child[1], child[2], child[3], 0, child[5], child[6]))
                     else:
                         visited_states = [state for state in self.open_list if child[1] == state[1]]          # Get the state that has the same one as the child
                         
@@ -99,7 +99,7 @@ class GBFS:
                                 old_states.append(state)
 
                             # Switch the old state with the new child with a lesser cost (We know for sure it's the last one)
-                            old_states[-1] = (child[4], child[1], child[2], child[3], 0, child[5])                      
+                            old_states[-1] = (child[4], child[1], child[2], child[3], 0, child[5], child[6])                      
 
                             # Put all the removed states back into the PQ
                             for s in old_states:
