@@ -134,6 +134,7 @@ def rowcolCheck(test_puzzle, goal_states):
     numIncorrect = 0
     numCorrect = 0
 
+    # Row Check
     for i in range(0,4):
         # print(i)
         for j in range(0,4):
@@ -142,3 +143,20 @@ def rowcolCheck(test_puzzle, goal_states):
                 # print("good")
                 numCorrect += 1
         numIncorrect += 1
+    
+    for i in range (4, 8):
+        # print(i)
+        for j in range (4,8):
+            # print(i)
+            if(goal_states[0][i] == test_puzzle[j]):
+                # print("good")
+                numCorrect += 1
+        numIncorrect += 1
+
+    numIncorrect = numIncorrect - numCorrect
+
+    # Column check     
+    for i in range(0, 4):
+        if test_puzzle[i] not in (goal_states[0][i], goal_states[0][i + 4]):
+            numIncorrect += 1
+    return numIncorrect
