@@ -30,11 +30,7 @@ test_puzzle8 = [7, 3, 4, 2, 6, 0, 1, 5]
 
 puzzles, goal_states = generatePuzzle(2, 8)
 
-with open("puzzles/50puzzles.txt", "w") as f:
-    for p in puzzles:
-        for i in p:
-            f.write("{} ".format(i))
-        f.write("\n")
+writePuzzlesToFile(puzzles)
 
 ucs_stats = []
 gbfs_h1_stats = []
@@ -54,10 +50,10 @@ p = Puzzle("puzzles/test.txt", (2, 4))
 g = Graph(goal_states, len(test_puzzle4), p.puzzles[0])
 
 aStar = a_star(g)
-aStar.check_timeout(5)
+aStar.check_timeout(3)
 
 gbfs = GBFS(g)
-gbfs.check_timeout(5)
+gbfs.check_timeout(3)
 
 ucs = UCS(g)
 ucs.check_timeout()
