@@ -16,5 +16,5 @@ Team AyeAyeAI:
   * Any IDE that supports Python can run the program.
   * Run `main.py` to run 50 randomly generated puzzles.
   * Search files are generated in	the "search" directory
-  * Solution files are generated in the "search" directory
+  * Solution files are generated in the "solution" directory
   * Statistics on the results are generated in the "stats" directory.
