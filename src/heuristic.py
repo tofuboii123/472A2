@@ -19,7 +19,7 @@ def positionCheck(arr1, arr2):
 
 # 0 - Naive heuristic returns 0 if last position is 0
 def naive(test_puzzle):
-    if test_puzzle[7] == 0:
+    if test_puzzle[-1] == 0:
         return 0
     else:
         return 1

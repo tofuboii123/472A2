@@ -101,7 +101,7 @@ def writeStatsToCSV(file_name, avg_stats, total_stats):
     with open("stats/{}_total_stats.csv".format(file_name), "w") as f:
         csv_out = csv.writer(f)
         csv_out.writerow(["total_search_length", "total_solution_length", "total_no_solutions", "total_exec_time", "total_cost"])
-        csv_out.writerow(avg_stats)
+        csv_out.writerow(total_stats)
 
 
 
