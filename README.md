@@ -8,7 +8,7 @@ Team AyeAyeAI:
   * Weiliang Xie (40100475)
 
 * Contribution: 
-  * Keving Jiang: GBFS, Timer, Debugging 
+  * Kevin Jiang: GBFS, Timer, Debugging 
   * Tan-Phat Pham: A*, Heuristic, Debugging
   * Weiliang Xie: UCS, Puzzle Generation, Scaling, Heuristic, Debugging  
 
