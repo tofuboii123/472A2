@@ -53,7 +53,7 @@ class Graph:
                                   self.zero_position + (self.size//2),
                                   self.zero_position + (self.size//2 - 1),
                                   self.zero_position + (self.size//2 + 1),
-                                  self.zero_position + (self.size//2 - 1)]
+                                  self.zero_position + (self.size - 1)]
             
             for i, position in enumerate(new_zero_positions):
                 state_copy = self.current_state.copy() # Deep copy
